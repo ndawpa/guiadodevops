@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: airflow
+  namespace: airflow     
+spec:
+  project: default
+  source:
+    repoURL: https://airflow.apache.org/
+    targetRevision: 1.17.0
+    helm:
+      values: |-
+        ingress:
+          apiServer:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt"
+            path: "/"
+            ingressClassName: "nginx"
+            hosts:
+              - name: "airflow.guiadodevops.com"
+                tls:
+                  enabled: true
+                  secretName: "airflow-tls"
+        config:
+          core:
+            load_examples: 'True'
+    chart: airflow
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: airflow
+  syncPolicy:
+    automated: {}

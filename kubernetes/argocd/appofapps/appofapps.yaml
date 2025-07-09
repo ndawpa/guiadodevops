@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: appofapps
+  namespace: argocd     
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  source:
+    path: kubernetes/argocd/applications
+    repoURL: https://github.com/ndawpa/guiadodevops.git
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
+  project: default
