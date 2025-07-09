@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd     
+spec:
+  project: infra
+  source:
+    repoURL: https://charts.jenkins.io/
+    targetRevision: 5.8.66
+    chart: jenkins
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
