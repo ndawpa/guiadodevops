@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd     
+spec:
+  project: infra
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 9.2.10
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+          hosts:
+            - grafana.guiadodevops.com
+          path: /
+          tls:
+          - secretName: grafana-tls
+            hosts:
+              - grafana.guiadodevops.com
+    chart: grafana
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
