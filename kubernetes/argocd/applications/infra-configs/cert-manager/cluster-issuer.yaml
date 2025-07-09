@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/infra-configs/cert-manager/cluster-issuer
+    path: kubernetes/infra-configs/cert-manager
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
