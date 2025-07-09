@@ -1,2 +1,1 @@
-kubectl -n security create secret generic vault-token \
-  --from-literal=token=hvs.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+kubectl -n security create secret generic vault-token --from-literal=token=hvs.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
