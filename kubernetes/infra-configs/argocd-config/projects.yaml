@@ -47,3 +47,20 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra-config
+  namespace: argocd
+spec:
+  description: Infrastructure config project
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
