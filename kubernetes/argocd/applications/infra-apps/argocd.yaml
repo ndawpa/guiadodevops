@@ -4,7 +4,7 @@ metadata:
   name: argocd
   namespace: argocd    
 spec:
-  project: default
+  project: infra
   source:
     repoURL: https://argoproj.github.io/argo-helm
     targetRevision: 8.1.2

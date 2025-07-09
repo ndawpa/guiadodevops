@@ -4,7 +4,7 @@ metadata:
   name: kubernetes-config
   namespace: argocd     
 spec:
-  project: default
+  project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
     path: kubernetes/infra-configs/kubernetes-config

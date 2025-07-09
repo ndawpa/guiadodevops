@@ -4,7 +4,7 @@ metadata:
   name: argocd-config
   namespace: argocd     
 spec:
-  project: default
+  project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
     path: kubernetes/infra-configs/argocd-config
