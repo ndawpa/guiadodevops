@@ -9,8 +9,6 @@ spec:
       prune: true
       allowEmpty: true 
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   source:
     path: kubernetes/argocd/applications
     repoURL: https://github.com/ndawpa/guiadodevops.git
