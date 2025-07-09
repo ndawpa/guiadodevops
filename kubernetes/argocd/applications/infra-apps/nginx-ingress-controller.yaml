@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress-controller
+  namespace: argocd     
+spec:
+  project: infra
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 11.6.27
+    chart: nginx-ingress-controller
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-controller
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
