@@ -15,7 +15,6 @@ spec:
             enabled: true
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt"
-              nginx.ingress.kubernetes.io/proxy-body-size: "100m"
             path: "/"
             ingressClassName: "nginx"
             hosts:
@@ -31,4 +30,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: airflow
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
