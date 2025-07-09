@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd     
+spec:
+  project: infra
+  source:
+    repoURL: https://helm.goharbor.io
+    targetRevision: 1.17.1
+    helm:
+      values: |-
+        expose:
+          tls:
+            secretName: harbor-tls
+          ingress:
+            hosts:
+              core: harbor.guiadodevops.com
+            className: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+        externalURL: https://harbor.guiadodevops.com
+    chart: harbor
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
