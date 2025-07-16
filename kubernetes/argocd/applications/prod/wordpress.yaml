@@ -6,9 +6,9 @@ metadata:
 spec:
   project: prod
   source:
-    repoURL: https://charts.bitnami.com/bitnami
+    repoURL: harbor.guiadodevops.com
     targetRevision: 25.0.1
-    chart: wordpress
+    chart: prod/wordpress
   destination:
     server: https://kubernetes.default.svc
     namespace: production
