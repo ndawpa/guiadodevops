@@ -8,6 +8,9 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 11.6.27
+    helm:
+      values: |-
+        replicaCount: 3
     chart: nginx-ingress-controller
   destination:
     server: https://kubernetes.default.svc
