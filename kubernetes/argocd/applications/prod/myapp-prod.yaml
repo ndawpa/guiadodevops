@@ -8,6 +8,22 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 0.1.0
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          className: "nginx"
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+          hosts:
+            - host: myapp.guiadodevops.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+          - secretName: myapp-tls
+            hosts:
+              - myapp.guiadodevops.com
     chart: prod/myapp
   destination:
     server: https://kubernetes.default.svc
