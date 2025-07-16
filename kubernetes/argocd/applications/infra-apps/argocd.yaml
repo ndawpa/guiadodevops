@@ -30,10 +30,10 @@ spec:
                 secretName: argocd-tls
         configs:
           cm:
-            accounts.willian: apiKey,login
+            accounts.willian: apiKey,login # It is not working properly
           secret:
             extra:
-              willian.password: "$2a$10$835pvk9LZPA/vT4isSk6GuyQIuEWXnOktS8O2JNXJBv1fy.ZKNguy" 
+              willian.password: "$2a$10$835pvk9LZPA/vT4isSk6GuyQIuEWXnOktS8O2JNXJBv1fy.ZKNguy" # It is not working properly
     chart: argo-cd
   destination:
     server: https://kubernetes.default.svc
