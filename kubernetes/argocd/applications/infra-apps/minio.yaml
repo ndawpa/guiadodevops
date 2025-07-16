@@ -26,7 +26,7 @@ spec:
     chart: infra/minio
   destination:
     server: https://kubernetes.default.svc
-    namespace: security
+    namespace: operational
   syncPolicy:
     automated:
       prune: true
