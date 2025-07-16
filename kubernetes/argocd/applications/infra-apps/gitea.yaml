@@ -8,6 +8,22 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 12.1.1
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          className: "nginx"
+          pathType: Prefix
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+          hosts:
+            - host: git.guiadodevops.com
+              paths:
+                - path: /
+          tls:
+            - secretName: gitea-tls
+              hosts:
+                - git.guiadodevops.com      
     chart: infra/gitea
   destination:
     server: https://kubernetes.default.svc
