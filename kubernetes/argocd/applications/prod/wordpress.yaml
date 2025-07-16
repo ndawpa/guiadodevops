@@ -11,7 +11,7 @@ spec:
     chart: prod/wordpress
   destination:
     server: https://kubernetes.default.svc
-    namespace: production
+    namespace: prod
   syncPolicy:
     automated: {}
   syncPolicy:
