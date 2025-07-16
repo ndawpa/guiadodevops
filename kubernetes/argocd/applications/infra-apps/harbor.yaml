@@ -11,8 +11,6 @@ spec:
     helm:
       values: |-
         expose:
-          tls:
-            secretName: harbor-ingress
           ingress:
             hosts:
               core: harbor.guiadodevops.com
