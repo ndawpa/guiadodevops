@@ -22,7 +22,7 @@ spec:
             extraTls:
               - hosts:
                   - minio-console.guiadodevops.com
-                secretName: minio-console.guiadodevops.com-tls
+                secretName: minio-console-tls
     chart: infra/minio
   destination:
     server: https://kubernetes.default.svc
