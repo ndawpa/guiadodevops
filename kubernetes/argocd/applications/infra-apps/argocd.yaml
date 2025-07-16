@@ -28,7 +28,7 @@ spec:
               - hosts:
                   - argocd.guiadodevops.com
                 secretName: argocd-tls
-          configs:
+        configs:
           cm:
             accounts.willian: apiKey,login
     chart: argo-cd
