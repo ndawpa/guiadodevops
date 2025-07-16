@@ -12,7 +12,7 @@ spec:
       values: |-
         expose:
           tls:
-            secretName: harbor-tls
+            secretName: harbor-ingress
           ingress:
             hosts:
               core: harbor.guiadodevops.com
