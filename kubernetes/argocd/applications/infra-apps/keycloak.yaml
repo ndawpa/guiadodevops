@@ -7,7 +7,7 @@ spec:
   project: infra
   source:
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 24.7.5
+    targetRevision: 24.7.7
     chart: keycloak
   destination:
     server: https://kubernetes.default.svc
