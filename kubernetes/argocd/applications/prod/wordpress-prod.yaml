@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress-prod
+  namespace: argocd
+spec:
+  project: prod
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 25.0.1
+    chart: prod/wordpress
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+  syncPolicy:
+    automated: {}
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

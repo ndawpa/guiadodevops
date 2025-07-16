@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: wordpress
+  name: wordpress-nonprod
   namespace: argocd
 spec:
-  project: prod
+  project: nonprod
   source:
-    repoURL: harbor.guiadodevops.com
+    repoURL: guiadodevops.azurecr.io
     targetRevision: 25.0.1
-    chart: prod/wordpress
+    chart: wordpress
   destination:
     server: https://kubernetes.default.svc
-    namespace: prod
+    namespace: nonprod
   syncPolicy:
     automated: {}
   syncPolicy:
