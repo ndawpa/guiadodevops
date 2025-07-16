@@ -7,7 +7,7 @@ spec:
   project: infra
   source:
     repoURL: https://airflow.apache.org/
-    targetRevision: 1.17.0
+    targetRevision: 1.18.0
     helm:
       values: |-
         ingress:
