@@ -2,11 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: airflow
-  namespace: argocd    
+  namespace: argocd
 spec:
   project: infra
   source:
-    repoURL: https://airflow.apache.org/
+    repoURL: harbor.guiadodevops.com
     targetRevision: 1.18.0
     helm:
       values: |-
@@ -36,7 +36,7 @@ spec:
             wait: 0
             maxFailures: 0
             credentialsSecret: ""
-    chart: airflow
+    chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
     namespace: airflow
