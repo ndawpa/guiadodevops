@@ -1,34 +1,34 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: minio
-  namespace: argocd     
-spec:
-  project: infra
-  source:
-    repoURL: harbor.guiadodevops.com
-    targetRevision: 17.0.13
-    helm:
-      values: |-
-        console:
-          ingress:
-            enabled: true
-            hostname: minio-console.guiadodevops.com
-            path: /
-            tls: true
-            annotations:
-              kubernetes.io/ingress.class: nginx
-              cert-manager.io/cluster-issuer: letsencrypt
-            extraTls:
-              - hosts:
-                  - minio-console.guiadodevops.com
-                secretName: minio-console-tls
-    chart: infra/minio
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: operational
-  syncPolicy:
-    automated:
-      prune: true
-      allowEmpty: true 
-      selfHeal: true
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: minio
+#   namespace: argocd     
+# spec:
+#   project: infra
+#   source:
+#     repoURL: harbor.guiadodevops.com
+#     targetRevision: 17.0.13
+#     helm:
+#       values: |-
+#         console:
+#           ingress:
+#             enabled: true
+#             hostname: minio-console.guiadodevops.com
+#             path: /
+#             tls: true
+#             annotations:
+#               kubernetes.io/ingress.class: nginx
+#               cert-manager.io/cluster-issuer: letsencrypt
+#             extraTls:
+#               - hosts:
+#                   - minio-console.guiadodevops.com
+#                 secretName: minio-console-tls
+#     chart: infra/minio
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: operational
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       allowEmpty: true 
+#       selfHeal: true
