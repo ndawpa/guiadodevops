@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage
+  namespace: argocd     
+spec:
+  project: infra
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2.6.0
+    chart: infra/backstage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
