@@ -26,6 +26,8 @@ spec:
               hosts:
                 - sonarqube.guiadodevops.com
         monitoringPasscode: "adminadmin123!"
+        community:
+          enabled: true
     chart: infra/sonarqube
   destination:
     server: https://kubernetes.default.svc
