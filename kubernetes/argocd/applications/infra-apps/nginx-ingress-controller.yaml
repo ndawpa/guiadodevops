@@ -11,6 +11,8 @@ spec:
     helm:
       values: |-
         replicaCount: 3
+        publishService:
+          enabled: true
     chart: nginx-ingress-controller
   destination:
     server: https://kubernetes.default.svc
