@@ -8,6 +8,53 @@ spec:
   source:
     repoURL: https://kubernetes-sigs.github.io/external-dns/
     targetRevision: 1.17.0
+    helm:
+      values: |-
+        # Cloudflare configuration for external-dns
+        provider:
+          name: cloudflare
+
+        # Cloudflare-specific arguments
+        extraArgs:
+          - --cloudflare-proxied
+          - --cloudflare-dns-records-per-page=100
+
+        # Environment variables for Cloudflare credentials
+        env:
+          - name: CF_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: external-dns-provider-cloudflare
+                key: CF_API_KEY
+          - name: CF_API_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: external-dns-provider-cloudflare
+                key: CF_API_EMAIL
+
+        # Domain filters (optional - limit which domains to manage)
+        domainFilters:
+          - "guiadodevops.com"
+
+        # Sources to monitor
+        sources:
+          - service
+          - ingress
+
+        # Registry type for tracking ownership
+        registry: txt
+
+        # TXT owner ID to identify records created by this instance
+        txtOwnerId: "external-dns"
+
+        # Policy for DNS record management
+        policy: upsert-only
+
+        # Update interval
+        interval: 1m
+
+        # Log level
+        logLevel: info
     chart: external-dns
   destination:
     server: https://kubernetes.default.svc
