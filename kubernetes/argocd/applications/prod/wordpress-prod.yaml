@@ -8,12 +8,14 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 25.0.1
+    helm:
+      values: |-
+        service:
+          type: ClusterIP
     chart: prod/wordpress
   destination:
     server: https://kubernetes.default.svc
     namespace: prod
-  syncPolicy:
-    automated: {}
   syncPolicy:
     automated:
       prune: true

@@ -8,12 +8,14 @@ spec:
   source:
     repoURL: guiadodevops.azurecr.io
     targetRevision: 25.0.1
+    helm:
+      values: |-
+        service:
+          type: ClusterIP
     chart: wordpress
   destination:
     server: https://kubernetes.default.svc
     namespace: nonprod
-  syncPolicy:
-    automated: {}
   syncPolicy:
     automated:
       prune: true
