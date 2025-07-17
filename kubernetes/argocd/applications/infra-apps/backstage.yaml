@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 2.6.0
-    helmm:
+    helm:
       values: |-
         ingress:
           enabled: true
