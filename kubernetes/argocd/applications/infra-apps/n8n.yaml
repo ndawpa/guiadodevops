@@ -20,7 +20,7 @@ spec:
           hosts: 
             - host: "n8n.guiadodevops.com"
               paths:
-                - path: /
+                - /
           tls:
             - hosts:
                 - "n8n.guiadodevops.com"
