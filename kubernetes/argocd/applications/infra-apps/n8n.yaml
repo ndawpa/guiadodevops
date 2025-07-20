@@ -19,6 +19,8 @@ spec:
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           hosts: 
             - host: "n8n.guiadodevops.com"
+              paths:
+                - path: "/"
           tls:
             - hosts:
                 - "n8n.guiadodevops.com"
