@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: argocd     
+spec:
+  project: infra
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 1.0.10
+    chart: infra/n8n
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
