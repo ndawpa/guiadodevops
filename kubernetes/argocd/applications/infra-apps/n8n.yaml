@@ -8,6 +8,21 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 1.0.10
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          className: "nginx"
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            external-dns.alpha.kubernetes.io/hostname: n8n.guiadodevops.com
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          hosts: 
+            - host: "n8n.guiadodevops.com"
+          tls:
+            - hosts:
+                - "n8n.guiadodevops.com"
+              secretName: "n8n-tls"
     chart: infra/n8n
   destination:
     server: https://kubernetes.default.svc
