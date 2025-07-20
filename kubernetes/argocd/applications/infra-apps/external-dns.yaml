@@ -51,7 +51,7 @@ spec:
         policy: upsert-only
 
         # Update interval
-        interval: 1m
+        interval: 2m
 
         # Log level
         logLevel: info
