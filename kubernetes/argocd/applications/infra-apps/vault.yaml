@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://helm.releases.hashicorp.com
+    repoURL: harbor.guiadodevops.com
     targetRevision: 0.30.0
     helm:
       values: |-
@@ -26,7 +26,7 @@ spec:
             - secretName: vault-tls
               hosts:
                 - vault.guiadodevops.com
-    chart: vault
+    chart: infra/vault
   destination:
     server: https://kubernetes.default.svc
     namespace: security
