@@ -6,9 +6,9 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://kubernetes-sigs.github.io/metrics-server/
+    repoURL: harbor.guiadodevops.com
     targetRevision: 3.12.2
-    chart: metrics-server
+    chart: infra/metrics-server
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
