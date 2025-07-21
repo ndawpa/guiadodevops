@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://grafana.github.io/helm-charts
+    repoURL: harbor.guiadodevops.com
     targetRevision: 9.2.10
     helm:
       values: |-
@@ -35,7 +35,7 @@ spec:
             enabled: true
           notifiers:
             enabled: true
-    chart: grafana
+    chart: infra/grafana
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
