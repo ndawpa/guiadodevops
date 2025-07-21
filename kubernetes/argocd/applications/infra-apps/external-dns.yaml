@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://kubernetes-sigs.github.io/external-dns/
+    repoURL: harbor.guiadodevops.com
     targetRevision: 1.17.0
     helm:
       values: |-
@@ -55,7 +55,7 @@ spec:
 
         # Log level
         logLevel: info
-    chart: external-dns
+    chart: infra/external-dns
   destination:
     server: https://kubernetes.default.svc
     namespace: operational
