@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://argoproj.github.io/argo-helm
+    repoURL: harbor.guiadodevops.com
     targetRevision: 8.1.2
     helm:
       values: |-
@@ -36,7 +36,7 @@ spec:
           secret:
             extra:
               willian.password: "$2a$10$835pvk9LZPA/vT4isSk6GuyQIuEWXnOktS8O2JNXJBv1fy.ZKNguy" # It is not working properly
-    chart: argo-cd
+    chart: infra/argo-cd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
