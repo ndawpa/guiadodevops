@@ -6,9 +6,9 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://charts.bitnami.com/bitnami
+    repoURL: harbor.guiadodevops.com
     targetRevision: 24.7.7
-    chart: keycloak
+    chart: infra/keycloak
   destination:
     server: https://kubernetes.default.svc
     namespace: security
