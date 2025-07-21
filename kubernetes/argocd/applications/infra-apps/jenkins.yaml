@@ -6,9 +6,9 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://charts.jenkins.io/
+    repoURL: harbor.guiadodevops.com
     targetRevision: 5.8.66
-    chart: jenkins
+    chart: infra/jenkins
   destination:
     server: https://kubernetes.default.svc
     namespace: operational
