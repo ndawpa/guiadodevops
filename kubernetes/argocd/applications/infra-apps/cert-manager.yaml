@@ -6,13 +6,13 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://charts.jetstack.io
+    repoURL: harbor.guiadodevops.com
     targetRevision: v1.18.2
     helm:
       parameters:
         - name: installCRDs
           value: 'true'
-    chart: cert-manager
+    chart: infra/cert-manager
   destination:
     server: https://kubernetes.default.svc
     namespace: security
