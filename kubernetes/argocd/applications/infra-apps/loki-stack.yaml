@@ -6,13 +6,13 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://grafana.github.io/helm-charts
+    repoURL: harbor.guiadodevops.com
     targetRevision: 2.10.2
     helm:
       values: |-
         grafana:
           enabled: true
-    chart: loki-stack
+    chart: infra/loki-stack
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
