@@ -38,6 +38,7 @@ spec:
             wait: 0
             maxFailures: 0
             credentialsSecret: ""
+        executor: "KubernetesExecutor"
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
