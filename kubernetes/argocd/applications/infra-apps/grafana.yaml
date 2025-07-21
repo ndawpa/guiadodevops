@@ -24,6 +24,17 @@ spec:
           - secretName: grafana-tls
             hosts:
               - grafana.guiadodevops.com
+        sidecar:
+          alerts:
+            enabled: true
+          dashboards:
+            enabled: true
+          datasources:
+            enabled: true
+          plugins:
+            enabled: true
+          notifiers:
+            enabled: true
     chart: grafana
   destination:
     server: https://kubernetes.default.svc
