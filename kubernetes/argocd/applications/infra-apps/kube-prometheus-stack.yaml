@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://prometheus-community.github.io/helm-charts
+    repoURL: harbor.guiadodevops.com
     targetRevision: 75.9.0
     helm:
       values: |-
@@ -15,7 +15,7 @@ spec:
           upgradeJob:
             enabled: false
             forceConflicts: false
-    chart: kube-prometheus-stack
+    chart: infra/kube-prometheus-stack
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
