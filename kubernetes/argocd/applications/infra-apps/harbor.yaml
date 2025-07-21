@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://helm.goharbor.io
+    repoURL: harbor.guiadodevops.com
     targetRevision: 1.17.1
     helm:
       values: |-
@@ -24,7 +24,7 @@ spec:
               external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
               external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
         externalURL: https://harbor.guiadodevops.com
-    chart: harbor
+    chart: infra/harbor
   destination:
     server: https://kubernetes.default.svc
     namespace: operational
