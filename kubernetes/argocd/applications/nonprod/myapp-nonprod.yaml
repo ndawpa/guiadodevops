@@ -11,7 +11,7 @@ spec:
     helm:
       values: |-
         image:
-          repository: harbor.guiadodevops.com/core/myapp
+          repository: https://harbor.guiadodevops.com/core/myapp
           tag: "9_main"
         ingress:
           enabled: true
