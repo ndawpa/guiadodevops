@@ -12,7 +12,7 @@ spec:
       values: |-
         image:
           repository: harbor.guiadodevops.com/core/myapp
-          tag: "13_main"
+          tag: "19_main"
         imagePullSecrets:
           - name: k8s-private-repository-harbor
         ingress:
