@@ -13,8 +13,8 @@ spec:
         image:
           repository: harbor.guiadodevops.com/core/myapp
           tag: "13_main"
-          imagePullSecrets:
-            - name: k8s-private-repository-harbor
+        imagePullSecrets:
+          - name: k8s-private-repository-harbor
         ingress:
           enabled: true
           className: "nginx"
