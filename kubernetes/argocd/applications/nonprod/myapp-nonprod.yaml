@@ -12,7 +12,7 @@ spec:
       values: |-
         image:
           repository: harbor.guiadodevops.com/core/myapp
-          tag: "9_main"
+          tag: "12_main"
         ingress:
           enabled: true
           className: "nginx"
