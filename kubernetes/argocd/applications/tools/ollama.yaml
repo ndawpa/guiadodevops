@@ -32,9 +32,11 @@ spec:
             pull:
               - llama2
               - mistral
+              - deepseek-r1:1.5b
             run:
               - llama2
               - mistral
+              - deepseek-r1:1.5b
     chart: infra/ollama
   destination:
     server: https://kubernetes.default.svc
