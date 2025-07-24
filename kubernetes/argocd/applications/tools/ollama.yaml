@@ -27,6 +27,11 @@ spec:
             - secretName: ollama-tls-secret
               hosts:
                 - ollama.guiadodevops.com
+        ollama:
+          models:
+            run:
+              - llama2
+              - mistral
     chart: infra/ollama
   destination:
     server: https://kubernetes.default.svc

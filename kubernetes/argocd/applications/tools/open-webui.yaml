@@ -19,6 +19,10 @@ spec:
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           host: "open-webui.guiadodevops.com"
           tls: true
+        ollama:
+          enabled: false
+        ollamaUrls:
+          - "https://ollama.guiadodevops.com/"
     chart: infra/open-webui
   destination:
     server: https://kubernetes.default.svc
