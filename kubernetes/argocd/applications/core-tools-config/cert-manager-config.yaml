@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-secrets-config
+  name: cert-manager-config
   namespace: argocd     
 spec:
   project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/infra-configs/external-secrets-config
+    path: kubernetes/core-tools-configs/cert-manager-config
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc

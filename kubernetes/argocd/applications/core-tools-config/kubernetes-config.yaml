@@ -1,16 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane-config
+  name: kubernetes-config
   namespace: argocd     
 spec:
   project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/infra-configs/crossplane-config
+    path: kubernetes/core-tools-configs/kubernetes-config
     targetRevision: HEAD
-    directory:
-      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: operational
