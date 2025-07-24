@@ -9,7 +9,7 @@ spec:
     repoURL: harbor.guiadodevops.com
     targetRevision: 6.29.0
     helm:
-      value: |
+      values: |
         ingress:
           enabled: true
           class: "nginx"
