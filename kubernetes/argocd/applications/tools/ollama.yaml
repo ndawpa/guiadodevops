@@ -29,6 +29,9 @@ spec:
                 - ollama.guiadodevops.com
         ollama:
           models:
+            pull:
+              - llama2
+              - mistral
             run:
               - llama2
               - mistral
