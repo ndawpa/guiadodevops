@@ -8,6 +8,17 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 6.29.0
+    helm:
+      value: |
+        ingress:
+          enabled: true
+          class: "nginx"
+          annotations: 
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          host: "open-webui.guiadodevops.com"
+          tls: true
     chart: infra/open-webui
   destination:
     server: https://kubernetes.default.svc
