@@ -4,7 +4,7 @@ metadata:
   name: minio
   namespace: argocd     
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 17.0.13

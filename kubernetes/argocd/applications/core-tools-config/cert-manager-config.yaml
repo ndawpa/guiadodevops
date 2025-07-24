@@ -4,7 +4,7 @@ metadata:
   name: cert-manager-config
   namespace: argocd     
 spec:
-  project: infra-config
+  project: core-tools-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
     path: kubernetes/core-tools-config/cert-manager-config

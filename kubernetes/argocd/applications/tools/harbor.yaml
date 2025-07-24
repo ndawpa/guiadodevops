@@ -4,7 +4,7 @@ metadata:
   name: harbor
   namespace: argocd     
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 1.17.1

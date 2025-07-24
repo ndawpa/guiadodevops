@@ -1,32 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gitea
+  name: n8n
   namespace: argocd     
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 12.1.1
+    targetRevision: 1.0.10
     helm:
       values: |-
         ingress:
           enabled: true
           className: "nginx"
-          pathType: Prefix
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
-            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+            external-dns.alpha.kubernetes.io/hostname: n8n.guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-          hosts:
-            - host: git.guiadodevops.com
+          hosts: 
+            - host: "n8n.guiadodevops.com"
               paths:
-                - path: /
+                - /
           tls:
-            - secretName: gitea-tls
-              hosts:
-                - git.guiadodevops.com      
-    chart: infra/gitea
+            - hosts:
+                - "n8n.guiadodevops.com"
+              secretName: "n8n-tls"
+    chart: infra/n8n
   destination:
     server: https://kubernetes.default.svc
     namespace: operational

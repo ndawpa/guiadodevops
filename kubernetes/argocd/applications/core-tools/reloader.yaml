@@ -4,7 +4,7 @@ metadata:
   name: reloader
   namespace: argocd     
 spec:
-  project: infra
+  project: core-tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 2.1.5

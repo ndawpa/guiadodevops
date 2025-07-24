@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jenkins
+  name: wazuh
   namespace: argocd     
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 5.8.66
-    chart: infra/jenkins
+    targetRevision: 0.0.7
+    chart: infra/wazuh
   destination:
     server: https://kubernetes.default.svc
     namespace: operational

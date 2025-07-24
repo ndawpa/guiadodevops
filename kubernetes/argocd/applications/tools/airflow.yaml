@@ -4,7 +4,7 @@ metadata:
   name: airflow
   namespace: argocd
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 1.18.0

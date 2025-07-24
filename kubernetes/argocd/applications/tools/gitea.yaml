@@ -1,37 +1,35 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sonarqube
+  name: gitea
   namespace: argocd     
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 2025.3.1
+    targetRevision: 12.1.1
     helm:
       values: |-
         ingress:
           enabled: true
-          hosts:
-            - name: sonarqube.guiadodevops.com
-              path: /
-              pathType: ImplementationSpecific
+          className: "nginx"
+          pathType: Prefix
           annotations:
-            kubernetes.io/ingress.class: nginx
             cert-manager.io/cluster-issuer: "letsencrypt"
             external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
-            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false" 
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          hosts:
+            - host: git.guiadodevops.com
+              paths:
+                - path: /
           tls:
-            - secretName: sonarqube-tls
+            - secretName: gitea-tls
               hosts:
-                - sonarqube.guiadodevops.com
-        monitoringPasscode: "adminadmin123!"
-        community:
-          enabled: true
-    chart: infra/sonarqube
+                - git.guiadodevops.com      
+    chart: infra/gitea
   destination:
     server: https://kubernetes.default.svc
-    namespace: security
+    namespace: operational
   syncPolicy:
     automated:
       prune: true

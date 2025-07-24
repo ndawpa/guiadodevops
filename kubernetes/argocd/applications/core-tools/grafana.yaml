@@ -4,7 +4,7 @@ metadata:
   name: grafana
   namespace: argocd     
 spec:
-  project: infra
+  project: core-tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 9.2.10

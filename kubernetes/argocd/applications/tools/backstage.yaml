@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: n8n
+  name: backstage
   namespace: argocd     
 spec:
-  project: infra
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 1.0.10
+    targetRevision: 2.6.0
     helm:
       values: |-
         ingress:
@@ -15,17 +15,14 @@ spec:
           className: "nginx"
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
-            external-dns.alpha.kubernetes.io/hostname: n8n.guiadodevops.com
+            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-          hosts: 
-            - host: "n8n.guiadodevops.com"
-              paths:
-                - /
+          host: "backstage.guiadodevops.com"
+          path: "/"
           tls:
-            - hosts:
-                - "n8n.guiadodevops.com"
-              secretName: "n8n-tls"
-    chart: infra/n8n
+            enabled: true
+            secretName: "backstage-tls"
+    chart: infra/backstage
   destination:
     server: https://kubernetes.default.svc
     namespace: operational

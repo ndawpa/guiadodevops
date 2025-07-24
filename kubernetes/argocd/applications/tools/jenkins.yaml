@@ -1,21 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: wordpress-prod
-  namespace: argocd
+  name: jenkins
+  namespace: argocd     
 spec:
-  project: prod
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 25.0.1
-    helm:
-      values: |-
-        service:
-          type: ClusterIP
-    chart: prod/wordpress
+    targetRevision: 5.8.66
+    chart: infra/jenkins
   destination:
     server: https://kubernetes.default.svc
-    namespace: prod
+    namespace: operational
   syncPolicy:
     automated:
       prune: true

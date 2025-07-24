@@ -4,7 +4,7 @@ metadata:
   name: external-dns
   namespace: argocd     
 spec:
-  project: infra
+  project: core-tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 1.17.0
