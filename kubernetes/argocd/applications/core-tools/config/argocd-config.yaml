@@ -7,7 +7,7 @@ spec:
   project: core-tools-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/config/core-tools/argocd-config
+    path: kubernetes/argocd/config/core-tools/argocd-config
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
