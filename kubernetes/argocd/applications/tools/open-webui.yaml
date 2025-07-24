@@ -1,34 +1,34 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: open-webui
-  namespace: argocd     
-spec:
-  project: tools
-  source:
-    repoURL: harbor.guiadodevops.com
-    targetRevision: 6.29.0
-    helm:
-      values: |
-        ingress:
-          enabled: true
-          class: "nginx"
-          annotations: 
-            cert-manager.io/cluster-issuer: "letsencrypt"
-            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
-            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-          host: "open-webui.guiadodevops.com"
-          tls: true
-        ollama:
-          enabled: false
-        ollamaUrls:
-          - "https://ollama.guiadodevops.com/"
-    chart: infra/open-webui
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: operational
-  syncPolicy:
-    automated:
-      prune: true
-      allowEmpty: true 
-      selfHeal: true
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: open-webui
+#   namespace: argocd     
+# spec:
+#   project: tools
+#   source:
+#     repoURL: harbor.guiadodevops.com
+#     targetRevision: 6.29.0
+#     helm:
+#       values: |
+#         ingress:
+#           enabled: true
+#           class: "nginx"
+#           annotations: 
+#             cert-manager.io/cluster-issuer: "letsencrypt"
+#             external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+#             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+#           host: "open-webui.guiadodevops.com"
+#           tls: true
+#         ollama:
+#           enabled: false
+#         ollamaUrls:
+#           - "https://ollama.guiadodevops.com/"
+#     chart: infra/open-webui
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: operational
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       allowEmpty: true 
+#       selfHeal: true
