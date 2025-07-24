@@ -37,6 +37,15 @@ spec:
               - llama2
               - mistral
               - deepseek-r1:1.5b
+        resources:
+          requests:
+            memory: 8Gi
+            cpu: 2000m
+          limits:
+            memory: 16Gi
+            cpu: 4000m
+        nodeSelector:
+          name: ollama
     chart: infra/ollama
   destination:
     server: https://kubernetes.default.svc
