@@ -4,7 +4,7 @@ metadata:
   name: argocd-config
   namespace: argocd     
 spec:
-  project: core-tools-config
+  project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
     path: kubernetes/core-tools-config/argocd-config
