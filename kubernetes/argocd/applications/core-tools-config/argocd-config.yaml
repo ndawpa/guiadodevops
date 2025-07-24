@@ -7,7 +7,7 @@ spec:
   project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/core-tools-configs/argocd-config
+    path: kubernetes/core-tools-config/argocd-config
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc

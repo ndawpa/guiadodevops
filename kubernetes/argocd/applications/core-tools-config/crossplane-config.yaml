@@ -7,7 +7,7 @@ spec:
   project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/core-tools-configs/crossplane-config
+    path: kubernetes/core-tools-config/crossplane-config
     targetRevision: HEAD
     directory:
       recurse: true

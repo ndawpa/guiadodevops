@@ -7,7 +7,7 @@ spec:
   project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/core-tools-configs/kubernetes-config
+    path: kubernetes/core-tools-config/kubernetes-config
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc

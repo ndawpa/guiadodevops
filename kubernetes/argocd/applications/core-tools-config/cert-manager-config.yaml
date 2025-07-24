@@ -7,7 +7,7 @@ spec:
   project: infra-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/core-tools-configs/cert-manager-config
+    path: kubernetes/core-tools-config/cert-manager-config
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
