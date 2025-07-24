@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: open-webui
+  namespace: argocd     
+spec:
+  project: tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 6.29.0
+    chart: infra/open-webui
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
