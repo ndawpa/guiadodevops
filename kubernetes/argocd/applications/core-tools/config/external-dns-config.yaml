@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-config
+  name: external-dns-config
   namespace: argocd     
 spec:
   project: core-tools-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/core-tools-config/argocd-config
+    path: kubernetes/config/core-tools/external-dns-config
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc

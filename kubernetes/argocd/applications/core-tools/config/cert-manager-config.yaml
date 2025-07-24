@@ -1,19 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane-config
+  name: cert-manager-config
   namespace: argocd     
 spec:
   project: core-tools-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/core-tools-config/crossplane-config
+    path: kubernetes/config/core-tools/cert-manager-config
     targetRevision: HEAD
-    directory:
-      recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: operational
+    namespace: security
   syncPolicy:
     automated:
       prune: true

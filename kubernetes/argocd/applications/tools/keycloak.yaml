@@ -4,7 +4,7 @@ metadata:
   name: keycloak
   namespace: argocd     
 spec:
-  project: core-tools
+  project: tools
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 24.7.7
