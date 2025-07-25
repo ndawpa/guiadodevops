@@ -10,11 +10,11 @@ spec:
     targetRevision: 75.9.0
     helm:
       values: |-
-        crds:
-          enabled: false
-          upgradeJob:
-            enabled: false
-            forceConflicts: false
+        # crds:
+        #   enabled: false
+        #   upgradeJob:
+        #     enabled: false
+        #     forceConflicts: false
         prometheus:
           prometheusSpec:
             retention: 24h
