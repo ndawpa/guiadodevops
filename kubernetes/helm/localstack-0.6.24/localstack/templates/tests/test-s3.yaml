@@ -1,0 +1,46 @@
+{{- if .Values.tests.enabled }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "localstack.fullname" . }}-test-s3"
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app.kubernetes.io/name: {{ include "localstack.name" . }}
+    helm.sh/chart: {{ include "localstack.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  containers:
+    - name: awscli-s3
+      image: {{ .Values.tests.image.repository }}:{{ .Values.tests.image.tag }}
+      command:
+        - /bin/bash
+        - -c
+        - |
+          RETRIES=5
+          DELAY=2
+          URL=http://{{ include "localstack.fullname" . }}:{{ .Values.service.edgeService.targetPort }}
+          COMMAND="aws --debug --endpoint-url $URL s3 ls"
+          for i in $(seq 1 $RETRIES); do
+            if $COMMAND; then
+              echo "aws-cli s3 ls successful!"
+              exit 0
+            else
+              echo "Retry $i of $RETRIES..."
+              sleep $DELAY
+            fi
+          done
+          echo "Failed to aws-cli s3 ls after $RETRIES attempts."
+          exit 1
+      env:
+      - name: AWS_ACCESS_KEY_ID
+        value: test
+      - name: AWS_SECRET_ACCESS_KEY
+        value: test
+      - name: AWS_DEFAULT_REGION
+        value: us-east-1
+  restartPolicy: Never
+{{- end }}

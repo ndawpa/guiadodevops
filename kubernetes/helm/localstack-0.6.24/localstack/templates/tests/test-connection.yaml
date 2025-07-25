@@ -1,0 +1,38 @@
+{{- if .Values.tests.enabled }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "localstack.fullname" . }}-test-connection"
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app.kubernetes.io/name: {{ include "localstack.name" . }}
+    helm.sh/chart: {{ include "localstack.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  containers:
+    - name: curl-edge
+      image: {{ .Values.tests.image.repository }}:{{ .Values.tests.image.tag }}
+      command:
+        - /bin/bash
+        - -c
+        - |
+          URL='{{ include "localstack.fullname" . }}:{{ .Values.service.edgeService.targetPort }}/_localstack/health'
+          RETRIES=5
+          DELAY=2
+          for i in $(seq 1 $RETRIES); do
+            if curl -vvv "$URL"; then
+              echo "Connection successful!"
+              exit 0
+            else
+              echo "Retry $i of $RETRIES..."
+              sleep $DELAY
+            fi
+          done
+          echo "Failed to connect after $RETRIES attempts."
+          exit 1
+  restartPolicy: Never
+{{- end }}

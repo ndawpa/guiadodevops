@@ -1,0 +1,23 @@
+annotations:
+  category: Infrastructure
+apiVersion: v2
+appVersion: latest
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: ^2.9.0
+description: LocalStack - a fully functional local AWS cloud stack
+icon: https://cdn.localstack.cloud/images/logos/localstack-logo-icon-color.svg
+keywords:
+- aws
+- localstack
+maintainers:
+- email: info@localstack.cloud
+  name: LocalStack Team and Community
+  url: https://localstack.cloud/
+name: localstack
+sources:
+- https://localstack.cloud/
+- https://github.com/localstack/localstack
+type: application
+version: 0.6.24

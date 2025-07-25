@@ -1,0 +1,115 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "wazuh.fullname" . }}-admin
+spec:
+  secretName: admin-tls
+
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+
+  isCA: false
+
+  commonName: admin
+  subject:
+    organizations:
+      - Company
+    countries:
+      - US
+    localities:
+      - California
+
+  issuerRef:
+    name: {{ include "wazuh.fullname" . }}-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "wazuh.fullname" . }}-dashboard
+spec:
+  secretName: dashboard-tls
+
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+
+  isCA: false
+
+  commonName: dashboard
+  subject:
+    organizations:
+      - Company
+    countries:
+      - US
+    localities:
+      - California
+
+  issuerRef:
+    name: {{ include "wazuh.fullname" . }}-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "wazuh.fullname" . }}-node
+spec:
+  secretName: node-tls
+
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+
+  isCA: false
+
+  commonName: indexer
+  subject:
+    organizations:
+      - Company
+    countries:
+      - US
+    localities:
+      - California
+
+  issuerRef:
+    name: {{ include "wazuh.fullname" . }}-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: filebeat
+spec:
+  secretName: filebeat-tls
+
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+
+  isCA: false
+
+  commonName: filebeat
+  subject:
+    organizations:
+      - Company
+    countries:
+      - US
+    localities:
+      - California
+
+  issuerRef:
+    name: {{ include "wazuh.fullname" . }}-ca-issuer
