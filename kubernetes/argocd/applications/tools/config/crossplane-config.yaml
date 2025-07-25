@@ -4,10 +4,10 @@ metadata:
   name: crossplane-config
   namespace: argocd     
 spec:
-  project: core-tools-config
+  project: tools-config
   source:
     repoURL: https://github.com/ndawpa/guiadodevops
-    path: kubernetes/argocd/config/core-tools/crossplane-config
+    path: kubernetes/argocd/config/tools/crossplane-config
     targetRevision: HEAD
     directory:
       recurse: true
