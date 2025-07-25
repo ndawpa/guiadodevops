@@ -55,6 +55,11 @@ spec:
 
         # Log level
         logLevel: info
+
+        deploymentAnnotations:
+          reloader.stakater.com/match: "true"
+        podAnnotations:
+          reloader.stakater.com/auto: "true"
     chart: infra/external-dns
   destination:
     server: https://kubernetes.default.svc
