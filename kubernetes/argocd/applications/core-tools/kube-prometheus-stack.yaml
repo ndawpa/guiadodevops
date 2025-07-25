@@ -15,6 +15,46 @@ spec:
           upgradeJob:
             enabled: false
             forceConflicts: false
+
+        prometheus:
+          prometheusSpec:
+            retention: 24h
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: "default"
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 50Gi
+            
+            thanos:
+              objectStorageConfig:
+                existingSecret:
+                  name: "thanos-object-storage-minio"
+                  key: "objstore.yml"
+
+            resources:
+              requests:
+                memory: 1Gi
+                cpu: 250m
+              limits:
+                memory: 2Gi
+                cpu: 500m
+
+          thanosService:
+            enabled: true
+            port: 10901
+            targetPort: 10901
+
+        grafana:
+          additionalDataSources:
+            - name: thanos
+              type: prometheus
+              url: http://thanos-query.monitoring.svc.cluster.local:9090
+              access: proxy
+              isDefault: false
+              editable: true
     chart: infra/kube-prometheus-stack
   destination:
     server: https://kubernetes.default.svc
