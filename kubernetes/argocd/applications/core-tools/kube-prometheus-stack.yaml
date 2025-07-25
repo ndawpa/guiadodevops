@@ -46,6 +46,8 @@ spec:
             enabled: true
             port: 10901
             targetPort: 10901
+          thanosServiceMonitor:
+            enabled: true
 
         grafana:
           additionalDataSources:
