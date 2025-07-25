@@ -15,7 +15,6 @@ spec:
           upgradeJob:
             enabled: false
             forceConflicts: false
-
         prometheus:
           prometheusSpec:
             retention: 24h
@@ -27,13 +26,11 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
-            
             thanos:
               objectStorageConfig:
                 existingSecret:
                   name: "thanos-object-storage-minio"
                   key: "objstore.yml"
-
             resources:
               requests:
                 memory: 1Gi
@@ -41,14 +38,12 @@ spec:
               limits:
                 memory: 2Gi
                 cpu: 500m
-
           thanosService:
             enabled: true
             port: 10901
             targetPort: 10901
           thanosServiceMonitor:
             enabled: true
-
         grafana:
           additionalDataSources:
             - name: thanos
