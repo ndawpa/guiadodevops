@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oci-loadbalancer-config
+  namespace: kube-system
+data:
+  # Default annotations for OCI Load Balancers
+  # These will be applied to all LoadBalancer services
+  oci-load-balancer-shape: "flexible"
+  oci-load-balancer-shape-flex-min: "10"
+  oci-load-balancer-shape-flex-max: "100"
+  oci-load-balancer-is-private: "false"
+  oci-load-balancer-network-security-group-ids: ""
+  oci-load-balancer-subnet-ids: ""
+---
+# Service template with Dynamic Shapes annotations
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+  annotations:
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+    service.beta.kubernetes.io/oci-load-balancer-is-private: "false"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: example-app 

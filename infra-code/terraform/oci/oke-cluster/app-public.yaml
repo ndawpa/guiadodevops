@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-app
+          image: nginx:latest # substitua pela sua imagem ex: meu-repo/meu-app:tag
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  annotations:
+    # OCI Load Balancer Dynamic Shapes Configuration
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+    service.beta.kubernetes.io/oci-load-balancer-is-private: "false"
+    # Optional: Custom security groups
+    # service.beta.kubernetes.io/oci-load-balancer-network-security-group-ids: "ocid1.networksecuritygroup.oc1..."
+    # Optional: Custom subnets
+    # service.beta.kubernetes.io/oci-load-balancer-subnet-ids: "ocid1.subnet.oc1..."  
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+    # Add more ports as needed
+    # - port: 443
+    #   targetPort: 443
+    #   protocol: TCP
+    #   name: https
