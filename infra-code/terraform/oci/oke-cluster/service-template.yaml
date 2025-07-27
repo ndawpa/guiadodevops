@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: YOUR-SERVICE-NAME
+  annotations:
+    # OCI Load Balancer Dynamic Shapes Configuration
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+    service.beta.kubernetes.io/oci-load-balancer-is-private: "false"
+    # Optional: Custom security groups
+    # service.beta.kubernetes.io/oci-load-balancer-network-security-group-ids: "ocid1.networksecuritygroup.oc1..."
+    # Optional: Custom subnets
+    # service.beta.kubernetes.io/oci-load-balancer-subnet-ids: "ocid1.subnet.oc1..."
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+    # Add more ports as needed
+    # - port: 443
+    #   targetPort: 443
+    #   protocol: TCP
+    #   name: https
+  selector:
+    app: YOUR-APP-LABEL
+  # Optional: Session affinity
+  # sessionAffinity: ClientIP
+  # sessionAffinityConfig:
+  #   clientIP:
+  #     timeoutSeconds: 10800 
