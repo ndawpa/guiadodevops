@@ -1,8 +1,12 @@
-# Copyright Broadcom, Inc. All Rights Reserved.
-# SPDX-License-Identifier: APACHE-2.0
+#controller:
+#  service:
+#    type: LoadBalancer
 
-## bitnami/common
-## It is required by CI/CD tools and processes.
-## @skip exampleValue
-##
+#service:
+#  type: LoadBalancer
+#  annotations:
+#    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+#    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+#    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+#    service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.sa-saopaulo-1......"
 exampleValue: common-chart
