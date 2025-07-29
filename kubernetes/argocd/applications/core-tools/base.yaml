@@ -11,7 +11,7 @@ spec:
     chart: infra/base
   destination:
     server: https://kubernetes.default.svc
-    namespace: operational
+    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
