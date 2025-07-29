@@ -39,6 +39,14 @@ spec:
           extraEnv:
             WEBHOOK_URL:
               value: "https://n8n.guiadodevops.com"
+
+        valkey:
+          enabled: true
+          architecture: standalone
+          primary:
+            persistence:
+              enabled: false
+              size: 1Gi
     chart: infra/n8n
   destination:
     server: https://kubernetes.default.svc
