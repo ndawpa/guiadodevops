@@ -13,6 +13,11 @@ spec:
         replicaCount: 3
         publishService:
           enabled: true
+        service:
+          annotations:
+            service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
     chart: infra/nginx-ingress-controller
   destination:
     server: https://kubernetes.default.svc
