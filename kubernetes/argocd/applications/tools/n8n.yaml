@@ -25,6 +25,20 @@ spec:
             - hosts:
                 - "n8n.guiadodevops.com"
               secretName: "n8n-tls"
+
+        main:
+          config:
+            n8n:
+              # Configure the base URL for n8n
+              host: "n8n.guiadodevops.com"
+              port: 80
+              protocol: "https"
+
+        webhook:
+          enabled: true
+          extraEnv:
+            WEBHOOK_URL:
+              value: "https://n8n.guiadodevops.com"
     chart: infra/n8n
   destination:
     server: https://kubernetes.default.svc
