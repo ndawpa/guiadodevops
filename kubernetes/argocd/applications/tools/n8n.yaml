@@ -29,10 +29,14 @@ spec:
         main:
           config:
             n8n:
-              # Configure the base URL for n8n
               host: "n8n.guiadodevops.com"
               port: 80
               protocol: "https"
+            queue:
+              bull:
+                redis:
+                  host: "n8n-valkey-primary"
+                  port: 6379
 
         webhook:
           enabled: true
