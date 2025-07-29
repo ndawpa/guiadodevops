@@ -7,7 +7,7 @@ spec:
   project: core-tools
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 2.1.5
+    targetRevision: 1.26.2
     chart: infra/base
   destination:
     server: https://kubernetes.default.svc
