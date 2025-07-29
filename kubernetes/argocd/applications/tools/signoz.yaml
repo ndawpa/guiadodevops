@@ -8,6 +8,26 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 0.88.1
+    helm:
+      values: |-
+        signoz:
+          ingress:
+            enabled: true
+            className: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt"
+              external-dns.alpha.kubernetes.io/hostname: signoz.guiadodevops.com
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+            hosts:
+              - host: signoz.guiadodevops.com
+                paths:
+                  - path: /
+                    pathType: Prefix
+                    port: 8080
+            tls:
+              - secretName: signoz-tls
+                hosts:
+                  - signoz.guiadodevops.com
     chart: infra/signoz
   destination:
     server: https://kubernetes.default.svc
