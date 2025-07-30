@@ -8,6 +8,13 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 36.3.0
+    helm:
+      values: |-
+        service:
+          annotations:
+            service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
     chart: infra/traefik
   destination:
     server: https://kubernetes.default.svc

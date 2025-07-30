@@ -8,6 +8,13 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 2.51.0
+    helm:
+      values: |-
+        proxy:
+          annotations:
+            service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
     chart: infra/kong
   destination:
     server: https://kubernetes.default.svc
