@@ -12,6 +12,9 @@ metadata:
         name: vault-agent-injector-cfg
         jsonPointers:
         - /webhooks/0/clientConfig/caBundle
+        - /webhooks/0/clientConfig/service/port
+        - /webhooks/0/namespaceSelector
+        - /webhooks/0/reinvocationPolicy
 spec:
   project: core-tools
   source:
