@@ -45,7 +45,7 @@ spec:
                 memory: 2Gi
                 cpu: 1000m
         nodeExporter:
-          enabled: false
+          enabled: true
         server:
           resources:
             requests:
