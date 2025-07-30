@@ -44,6 +44,8 @@ spec:
               limits:
                 memory: 2Gi
                 cpu: 1000m
+        nodeExporter:
+          enabled: false
         server:
           resources:
             requests:
