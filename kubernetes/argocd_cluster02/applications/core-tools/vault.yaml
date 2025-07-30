@@ -21,8 +21,9 @@ spec:
                 paths:
                 - "/"
           ha:
+            enabled: false
+          standalone:
             enabled: true
-            replicas: 2
           serviceAccount:
             create: true
           resources:
