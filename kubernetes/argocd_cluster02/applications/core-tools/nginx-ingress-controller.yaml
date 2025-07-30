@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress-controller
+  namespace: argocd
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 11.6.27
+    helm:
+      values: |-
+        replicaCount: 3
+        publishService:
+          enabled: true
+        service:
+          annotations:
+            service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"   
+            service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa6ppmwl3fglylf6p74dygvwpn75vo7ufcfqx2ly54e55dpvca7oma"       
+    chart: infra/nginx-ingress-controller
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-controller
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

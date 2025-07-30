@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 25.0.0
+    helm:
+      values: |-
+        alertmanager:
+          enabled: true
+          alertmanagerSpec:
+            replicas: 1
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: "oci-bv"
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 10Gi
+        grafana:
+          enabled: false
+        prometheus:
+          prometheusSpec:
+            replicas: 1
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: "oci-bv"
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 50Gi
+            retention: 15d
+            retentionSize: 50GB
+            resources:
+              requests:
+                memory: 750Mi
+                cpu: 500m
+              limits:
+                memory: 2Gi
+                cpu: 1000m
+        nodeExporter:
+          enabled: true
+        server:
+          resources:
+            requests:
+              memory: 750Mi
+              cpu: 500m
+            limits:
+              memory: 2Gi
+              cpu: 1000m
+    chart: prometheus
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
