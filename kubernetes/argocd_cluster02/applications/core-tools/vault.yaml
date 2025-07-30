@@ -6,6 +6,12 @@ metadata:
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
     argocd.argoproj.io/sync-options: Prune=false
+    argocd.argoproj.io/ignore-differences: |
+      - group: admissionregistration.k8s.io
+        kind: MutatingWebhookConfiguration
+        name: vault-agent-injector-cfg
+        jsonPointers:
+        - /webhooks/0/clientConfig/caBundle
 spec:
   project: core-tools
   source:
