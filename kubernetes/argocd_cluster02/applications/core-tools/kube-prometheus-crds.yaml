@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
+  name: kube-prometheus-crds
   namespace: argocd     
 spec:
   project: core-tools
@@ -12,16 +12,22 @@ spec:
       values: |-
         crds:
           enabled: true
-           upgradeJob:
-             enabled: true
-             forceConflicts: true          
+        prometheus:
+          enabled: false
+        alertmanager:
+          enabled: false
+        grafana:
+          enabled: false
+        kubeStateMetrics:
+          enabled: false
+        nodeExporter:
+          enabled: false
     chart: infra/kube-prometheus-stack
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       allowEmpty: true 
-      selfHeal: true# enable crds
-#push now
+      selfHeal: true 
