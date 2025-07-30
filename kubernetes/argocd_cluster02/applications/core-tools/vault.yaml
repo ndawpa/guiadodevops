@@ -5,6 +5,7 @@ metadata:
   namespace: argocd     
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   project: core-tools
   source:
@@ -22,6 +23,10 @@ spec:
               - host: vault.local
                 paths:
                 - "/"
+        injector:
+          certs:
+            secretName: null
+            caBundle: ""
     chart: infra/vault
   destination:
     server: https://kubernetes.default.svc
