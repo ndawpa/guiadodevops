@@ -20,23 +20,6 @@ spec:
               - host: vault.local
                 paths:
                 - "/"
-          ha:
-            enabled: false
-          standalone:
-            enabled: true
-          serviceAccount:
-            create: true
-          resources:
-            requests:
-              memory: 256Mi
-              cpu: 250m
-            limits:
-              memory: 512Mi
-              cpu: 500m
-          persistence:
-            enabled: true
-            storageClass: "oci-bv"
-            size: 10Gi
     chart: infra/vault
   destination:
     server: https://kubernetes.default.svc
@@ -46,3 +29,4 @@ spec:
       prune: true
       allowEmpty: true 
       selfHeal: true
+#remove pv policy      
