@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 3.4.4
+    chart: infra/kyverno
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
