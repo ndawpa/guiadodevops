@@ -19,7 +19,7 @@ spec:
               - host: vault.local
                 paths:
                 - path: /
-                  pathType: Prefix
+                  pathType: ImplementationSpecific
           ha:
             enabled: true
             replicas: 3
