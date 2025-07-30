@@ -1,21 +1,58 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
+  name: prometheus
   namespace: argocd     
 spec:
   project: core-tools
   source:
-    repoURL: harbor.guiadodevops.com
-    targetRevision: 75.9.0
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 25.0.0
     helm:
       values: |-
-        crds:
+        alertmanager:
           enabled: true
-           upgradeJob:
-             enabled: true
-             forceConflicts: true          
-    chart: infra/kube-prometheus-stack
+          alertmanagerSpec:
+            replicas: 1
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: ""
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 10Gi
+        grafana:
+          enabled: false
+        prometheus:
+          prometheusSpec:
+            replicas: 1
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: ""
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 50Gi
+            retention: 15d
+            retentionSize: 50GB
+            resources:
+              requests:
+                memory: 750Mi
+                cpu: 500m
+              limits:
+                memory: 2Gi
+                cpu: 1000m
+        server:
+          resources:
+            requests:
+              memory: 750Mi
+              cpu: 500m
+            limits:
+              memory: 2Gi
+              cpu: 1000m
+    chart: prometheus
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -23,5 +60,4 @@ spec:
     automated:
       prune: true
       allowEmpty: true 
-      selfHeal: true# enable crds
-#push now
+      selfHeal: true
