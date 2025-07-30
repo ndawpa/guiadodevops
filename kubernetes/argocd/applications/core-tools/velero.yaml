@@ -9,6 +9,61 @@ spec:
     repoURL: harbor.guiadodevops.com
     targetRevision: 10.0.10
     chart: infra/velero
+    helm:
+      values: |
+        # Velero Azure Configuration
+        # This file contains the values for Velero deployment with Azure storage backend
+
+        # Enable backups and snapshots
+        backupsEnabled: true
+        snapshotsEnabled: true
+
+        # Configuration for backup storage location and volume snapshot location
+        configuration:
+          # Backup Storage Location configuration for Azure
+          backupStorageLocation:
+          - name: default
+            provider: azure
+            bucket: velero-backups  # Replace with your actual Azure storage container name
+            default: true
+            accessMode: ReadWrite
+            credential:
+              name: velero-azure-credentials
+              key: cloud
+            config:
+              resourceGroup: velero-rg  # Replace with your actual resource group
+              storageAccount: velerostorage  # Replace with your actual storage account name
+              # subscriptionId: your-subscription-id  # Uncomment and set if different from cluster subscription
+
+          # Volume Snapshot Location configuration for Azure
+          volumeSnapshotLocation:
+          - name: default
+            provider: azure
+            credential:
+              name: velero-azure-credentials
+              key: cloud
+            config:
+              resourceGroup: velero-rg  # Replace with your actual resource group
+              # subscriptionId: your-subscription-id  # Uncomment and set if different from cluster subscription
+
+        # Credentials configuration - using existing secret from External Secrets
+        credentials:
+          useSecret: true
+          existingSecret: velero-azure-credentials
+
+        # Service account configuration
+        serviceAccount:
+          server:
+            create: true
+            name: velero
+            annotations: {}
+
+        # Node agent configuration (for file system backups)
+        deployNodeAgent: true
+
+        # Additional settings
+        defaultBackupStorageLocation: default
+        defaultVolumeSnapshotLocation: default
   destination:
     server: https://kubernetes.default.svc
     namespace: security
