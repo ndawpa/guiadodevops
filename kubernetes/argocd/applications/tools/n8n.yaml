@@ -26,31 +26,31 @@ spec:
                 - "n8n.guiadodevops.com"
               secretName: "n8n-tls"
 
-        main:
-          config:
-            n8n:
-              host: "n8n.guiadodevops.com"
-              port: 80
-              protocol: "https"
-            queue:
-              bull:
-                redis:
-                  host: "n8n-valkey-primary"
-                  port: 6379
+        # main:
+        #   config:
+        #     n8n:
+        #       host: "n8n.guiadodevops.com"
+        #       port: 80
+        #       protocol: "https"
+        #     queue:
+        #       bull:
+        #         redis:
+        #           host: "n8n-valkey-primary"
+        #           port: 6379
 
-        webhook:
-          enabled: true
-          extraEnv:
-            WEBHOOK_URL:
-              value: "https://n8n.guiadodevops.com"
+        # webhook:
+        #   enabled: true
+        #   extraEnv:
+        #     WEBHOOK_URL:
+        #       value: "https://n8n.guiadodevops.com"
 
-        valkey:
-          enabled: true
-          architecture: standalone
-          primary:
-            persistence:
-              enabled: false
-              size: 1Gi
+        # valkey:
+        #   enabled: true
+        #   architecture: standalone
+        #   primary:
+        #     persistence:
+        #       enabled: false
+        #       size: 1Gi
     chart: infra/n8n
   destination:
     server: https://kubernetes.default.svc
