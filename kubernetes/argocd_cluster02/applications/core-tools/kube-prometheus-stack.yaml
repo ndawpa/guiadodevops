@@ -17,7 +17,7 @@ spec:
             storage:
               volumeClaimTemplate:
                 spec:
-                  storageClassName: ""
+                  storageClassName: "oci-bv"
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
@@ -30,7 +30,7 @@ spec:
             storageSpec:
               volumeClaimTemplate:
                 spec:
-                  storageClassName: ""
+                  storageClassName: "oci-bv"
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
