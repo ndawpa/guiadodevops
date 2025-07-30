@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-crds
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2025.7.5
+    chart: infra/linkerd-crds
+    helm:
+      parameters:
+        - name: installGatewayAPI
+          value: 'true'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: linkerd-system
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true 

@@ -1,0 +1,102 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-viz
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2025.7.5
+    chart: infra/linkerd-viz
+    helm:
+      values: |
+        # Linkerd Viz Configuration
+        # Observability and visualization components for Linkerd
+        
+        # Prometheus configuration
+        prometheus:
+          enabled: true
+          resources:
+            cpu:
+              request: 300m
+              limit: 1000m
+            memory:
+              request: 512Mi
+              limit: 2Gi
+          retention: 7d
+          storage:
+            volumeClaimTemplate:
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 10Gi
+        
+        # Grafana configuration
+        grafana:
+          enabled: true
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+          persistence:
+            enabled: true
+            storageClassName: ""
+            accessMode: ReadWriteOnce
+            size: 5Gi
+        
+        # Web configuration
+        web:
+          enabled: true
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+        
+        # Tap configuration
+        tap:
+          enabled: true
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+        
+        # Dashboard configuration
+        dashboard:
+          enabled: true
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+        
+        # Metrics API configuration
+        metricsAPI:
+          enabled: true
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: linkerd-viz
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true 

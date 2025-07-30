@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-control-plane
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2025.7.5
+    chart: infra/linkerd-control-plane
+    helm:
+      values: |
+        # Linkerd Control Plane Configuration
+        # Basic configuration for production deployment
+        
+        # Identity configuration
+        identity:
+          issuer:
+            scheme: kubernetes.io/tls
+            tls:
+              crtExpiry: 2025-12-31T23:59:59Z
+              crtExpiryAnnotation: linkerd.io/identity-issuer-expiry
+        
+        # Proxy configuration
+        proxy:
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+        
+        # Controller configuration
+        controllerResources:
+          cpu:
+            request: 100m
+            limit: 200m
+          memory:
+            request: 256Mi
+            limit: 512Mi
+        
+        # Policy controller configuration
+        policyController:
+          enabled: true
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+        
+        # Destination configuration
+        destination:
+          resources:
+            cpu:
+              request: 100m
+              limit: 200m
+            memory:
+              request: 128Mi
+              limit: 256Mi
+        
+        # Heartbeat configuration
+        heartbeat:
+          enabled: true
+          resources:
+            cpu:
+              request: 10m
+              limit: 20m
+            memory:
+              request: 64Mi
+              limit: 128Mi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: linkerd-system
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true 
