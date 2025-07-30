@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 10.0.10
+    chart: infra/velero
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
