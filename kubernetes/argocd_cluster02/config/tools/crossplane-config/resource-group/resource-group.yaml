@@ -1,0 +1,9 @@
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  name: crossplane-quickstart-rg
+spec:
+  forProvider:
+    location: "Sweden Central"
+  providerConfigRef:
+    name: crossplane-provider-config-azure
