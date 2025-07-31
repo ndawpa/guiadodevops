@@ -3,22 +3,10 @@ kind: Application
 metadata:
   name: vault
   namespace: argocd     
-  annotations:
-    argocd.argoproj.io/compare-options: IgnoreExtraneous
-    argocd.argoproj.io/sync-options: Prune=false
-    argocd.argoproj.io/ignore-differences: |
-      - group: admissionregistration.k8s.io
-        kind: MutatingWebhookConfiguration
-        name: vault-agent-injector-cfg
-        jsonPointers:
-        - /webhooks/0/clientConfig/caBundle
-        - /webhooks/0/clientConfig/service/port
-        - /webhooks/0/namespaceSelector
-        - /webhooks/0/reinvocationPolicy
 spec:
   project: core-tools
   source:
-    repoURL: harbor.guiadodevops.com
+    repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.30.0
     helm:
       values: |-
@@ -32,11 +20,7 @@ spec:
               - host: vault.local
                 paths:
                 - "/"
-        injector:
-          certs:
-            secretName: null
-            caBundle: ""
-    chart: infra/vault
+    chart: vault
   destination:
     server: https://kubernetes.default.svc
     namespace: security
