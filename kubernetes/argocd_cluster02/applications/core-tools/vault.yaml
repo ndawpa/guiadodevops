@@ -6,7 +6,7 @@ metadata:
 spec:
   project: core-tools
   source:
-    repoURL: https://helm.releases.hashicorp.com
+    repoURL: harbor.guiadodevops.com
     targetRevision: 0.30.0
     helm:
       values: |-
@@ -20,7 +20,7 @@ spec:
               - host: vault.local
                 paths:
                 - "/"
-    chart: vault
+    chart: infra/vault
   destination:
     server: https://kubernetes.default.svc
     namespace: security
