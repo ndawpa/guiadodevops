@@ -45,7 +45,7 @@ spec:
           thanosServiceMonitor:
             enabled: true
         grafana:
-          enabled: false
+          enabled: true
           additionalDataSources:
             - name: thanos
               type: prometheus
