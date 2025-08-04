@@ -43,6 +43,7 @@ spec:
           reloader.stakater.com/match: "true"
         podAnnotations:
           reloader.stakater.com/auto: "true"
+        revisionHistoryLimit: 2
     chart: infra/grafana
   destination:
     server: https://kubernetes.default.svc
