@@ -17,6 +17,7 @@ spec:
         #     forceConflicts: false
         prometheus:
           prometheusSpec:
+          serviceMonitorSelectorNilUsesHelmValues: false
             retention: 24h
             storageSpec:
               volumeClaimTemplate:
