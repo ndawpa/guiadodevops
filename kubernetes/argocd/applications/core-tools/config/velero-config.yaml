@@ -4,11 +4,13 @@ metadata:
   name: velero-config
   namespace: argocd     
 spec:
-  project: core-tools
+  project: core-tools-config
   source:
-    repoURL: https://github.com/guiadodevops/kubernetes
+    repoURL: https://github.com/ndawpa/guiadodevops
+    path: kubernetes/argocd/config/core-tools/velero-config
     targetRevision: HEAD
-    path: argocd/config/core-tools/velero-config
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: security
