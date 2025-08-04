@@ -27,3 +27,10 @@ data:
       jsonData:
         handleGrafanaManagedAlerts: false
         implementation: prometheus
+    - name: Loki
+      type: loki
+      uid: loki
+      url: "http://loki-stack:3100"
+      access: proxy
+      jsonData:
+        {}
