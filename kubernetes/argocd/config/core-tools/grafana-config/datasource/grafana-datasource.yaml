@@ -19,6 +19,15 @@ data:
       jsonData:
         httpMethod: POST
         timeInterval: 30s
+    - name: "ServiceMonitor"
+      type: prometheus
+      uid: servicemonitor
+      url: http://prometheus-operated.monitoring:9090/
+      access: proxy
+      isDefault: false
+      jsonData:
+        httpMethod: POST
+        timeInterval: 30s
     - name: "Alertmanager"
       type: alertmanager
       uid: alertmanager
