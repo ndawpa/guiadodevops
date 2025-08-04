@@ -35,7 +35,10 @@ spec:
             enabled: true
           notifiers:
             enabled: true
-        
+        admin:
+          existingSecret: grafana-admin-password
+          userKey: admin-user
+          passwordKey: admin-password
         annotations:
           reloader.stakater.com/match: "true"
         podAnnotations:
