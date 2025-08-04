@@ -35,6 +35,11 @@ spec:
             enabled: true
           notifiers:
             enabled: true
+        
+        annotations:
+          reloader.stakater.com/match: "true"
+        podAnnotations:
+          reloader.stakater.com/auto: "true"
     chart: infra/grafana
   destination:
     server: https://kubernetes.default.svc
