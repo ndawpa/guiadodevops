@@ -8,6 +8,12 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 0.29.3
+    helm:
+      values: |
+        serviceMonitor:
+          enabled: true
+        trivy:
+          ignoreUnfixed: true
     chart: infra/trivy-operator
   destination:
     server: https://kubernetes.default.svc
