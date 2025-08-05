@@ -16,7 +16,6 @@ spec:
 
         # Cloudflare-specific arguments
         extraArgs:
-          - --cloudflare-proxied
           - --cloudflare-dns-records-per-page=100
 
         # Environment variables for Cloudflare credentials
