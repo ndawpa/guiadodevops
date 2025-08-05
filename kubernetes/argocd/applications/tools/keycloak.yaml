@@ -34,10 +34,6 @@ spec:
             external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           tls: true
-          extraTls:
-          - hosts:
-            - keycloak.guiadodevops.com
-            secretName: keycloak-tls
         annotations:
           reloader.stakater.com/match: "true"
         podAnnotations:
