@@ -4,11 +4,11 @@ metadata:
   name: appofapps
   namespace: argocd     
 spec:
-  syncPolicy:
-    automated:
-      prune: true
-      allowEmpty: true 
-      selfHeal: true
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     allowEmpty: true 
+  #     selfHeal: true
   source:
     path: kubernetes/argocd/applications
     repoURL: https://github.com/ndawpa/guiadodevops.git
