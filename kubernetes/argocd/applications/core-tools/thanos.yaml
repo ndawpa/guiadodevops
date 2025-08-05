@@ -51,6 +51,11 @@ spec:
           queryURL: "http://thanos-query-frontend.monitoring.svc.cluster.local:9090"
           alertmanagers:
             - "http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093"
+          # Basic Ruler configuration
+          config: |
+            groups:
+              - name: "thanos-rules"
+                rules: []
         
         # MinIO for object storage (optional - you can use external MinIO)
         minio:
