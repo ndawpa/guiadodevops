@@ -14,6 +14,14 @@ spec:
         # Object storage configuration - reuse the same secret as Prometheus
         existingObjstoreSecret: "thanos-object-storage-minio"
         
+        # HTTP configuration for object storage (handles HTTPS redirects)
+        httpConfig: |
+          http_config:
+            tls_config:
+              insecure_skip_verify: true
+            follow_redirects: true
+            max_redirects: 10
+        
         # Query component (enabled by default)
         query:
           enabled: true
