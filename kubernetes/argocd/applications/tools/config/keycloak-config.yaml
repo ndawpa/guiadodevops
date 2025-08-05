@@ -6,7 +6,7 @@ metadata:
 spec:
   project: tools
   source:
-    repoURL: https://github.com/guiadodevops/guiadodevops.git
+    repoURL: https://github.com/ndawpa/guiadodevops
     path: kubernetes/argocd/config/tools/keycloak-config
     targetRevision: HEAD
     directory:
