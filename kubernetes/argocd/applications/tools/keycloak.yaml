@@ -26,17 +26,18 @@ spec:
         ingress:
           enabled: true
           ingressClassName: nginx
+          hostname: keycloak.guiadodevops.com
+          path: /
+          hostnameStrict: true
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
             external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-          hosts:
+          tls: true
+          extraTls:
+          - hosts:
             - keycloak.guiadodevops.com
-          path: /
-          tls:
-          - secretName: keycloak-tls
-            hosts:
-              - keycloak.guiadodevops.com
+            secretName: keycloak-tls
         annotations:
           reloader.stakater.com/match: "true"
         podAnnotations:
