@@ -8,6 +8,40 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 24.7.7
+    helm:
+      values: |-
+        postgresql:
+          enabled: true
+          auth:
+            existingSecret: keycloak-passwords
+            secretKeys:
+              adminPasswordKey: postgres-password
+              userPasswordKey: user-password
+            username: bn_keycloak
+            database: bitnami_keycloak
+          architecture: standalone
+        auth:
+          existingSecret: keycloak-passwords
+          adminPasswordKey: admin-password
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          hosts:
+            - keycloak.guiadodevops.com
+          path: /
+          tls:
+          - secretName: keycloak-tls
+            hosts:
+              - keycloak.guiadodevops.com
+        annotations:
+          reloader.stakater.com/match: "true"
+        podAnnotations:
+          reloader.stakater.com/auto: "true"
+        revisionHistoryLimit: 2
     chart: infra/keycloak
   destination:
     server: https://kubernetes.default.svc

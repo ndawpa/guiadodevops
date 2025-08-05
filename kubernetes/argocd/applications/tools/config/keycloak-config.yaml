@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak-config
+  namespace: argocd     
+spec:
+  project: tools
+  source:
+    repoURL: https://github.com/guiadodevops/guiadodevops.git
+    path: kubernetes/argocd/config/tools/keycloak-config
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true 
