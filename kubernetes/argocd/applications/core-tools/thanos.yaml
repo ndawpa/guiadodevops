@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: thanos
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 17.2.3
+    chart: infra/thanos
+    helm:
+      values: |-
+        # Object storage configuration - reuse the same secret as Prometheus
+        existingObjstoreSecret: "thanos-object-storage-minio"
+        
+        # Query component (enabled by default)
+        query:
+          enabled: true
+          dnsDiscovery:
+            enabled: true
+            sidecarsService: "kube-prometheus-stack-thanos-discovery"
+            sidecarsNamespace: "monitoring"
+          replicaCount: 2
+        
+        # Query Frontend for better performance
+        queryFrontend:
+          enabled: true
+          replicaCount: 2
+        
+        # Store Gateway for historical data queries
+        storegateway:
+          enabled: true
+          replicaCount: 2
+        
+        # Compactor for data compaction and retention
+        compactor:
+          enabled: true
+          retentionResolutionRaw: 30d
+          retentionResolution5m: 30d
+          retentionResolution1h: 10y
+          consistencyDelay: 30m
+          concurrency: 1
+        
+        # Ruler for global alerting rules
+        ruler:
+          enabled: true
+          replicaCount: 2
+          dnsDiscovery:
+            enabled: true
+          queryURL: "http://thanos-query-frontend.monitoring.svc.cluster.local:9090"
+          alertmanagers:
+            - "http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093"
+        
+        # MinIO for object storage (optional - you can use external MinIO)
+        minio:
+          enabled: false  # Set to true if you want to deploy MinIO with Thanos
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

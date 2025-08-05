@@ -50,7 +50,7 @@ spec:
           additionalDataSources:
             - name: thanos
               type: prometheus
-              url: http://thanos-query.monitoring.svc.cluster.local:9090
+              url: http://thanos-query-frontend.monitoring.svc.cluster.local:9090
               access: proxy
               isDefault: false
               editable: true
