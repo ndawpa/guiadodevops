@@ -30,7 +30,7 @@ spec:
           logging:
             remote_logging: 'True'
             remote_base_log_folder: 'wasb://airflow-logs@tallerairflowlogs.blob.core.windows.net/'
-            remote_log_conn_id: 'azure_blob_default'
+            remote_log_conn_id: 'wasb_default'
             # Additional logging configuration
             log_fetch_timeout_sec: 30
             log_processing_timeout: 30
@@ -59,7 +59,7 @@ spec:
           - envName: AZURE_STORAGE_ACCOUNT
             secretName: airflow-azure-credentials
             secretKey: account-name
-          - envName: AIRFLOW_CONN_AZURE_BLOB_DEFAULT
+          - envName: AIRFLOW_CONN_WASB_DEFAULT
             secretName: airflow-azure-credentials
             secretKey: connection-string
     chart: infra/airflow
