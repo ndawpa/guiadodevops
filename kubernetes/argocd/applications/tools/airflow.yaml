@@ -62,6 +62,15 @@ spec:
           - envName: AIRFLOW_CONN_WASB_DEFAULT
             secretName: airflow-azure-credentials
             secretKey: connection-string
+        # Add revision history limits to prevent ReplicaSet accumulation
+        webserver:
+          revisionHistoryLimit: 2
+        scheduler:
+          revisionHistoryLimit: 2
+        dagProcessor:
+          revisionHistoryLimit: 2
+        triggerer:
+          revisionHistoryLimit: 2
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
