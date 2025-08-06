@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: airflow-config
+  namespace: argocd     
+spec:
+  project: tools-config
+  source:
+    repoURL: https://github.com/ndawpa/guiadodevops
+    path: kubernetes/argocd/config/tools/airflow-config
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: airflow
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true 

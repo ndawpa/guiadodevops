@@ -27,6 +27,10 @@ spec:
         config:
           core:
             load_examples: 'True'
+          logging:
+            remote_logging: 'True'
+            remote_base_log_folder: 'wasb://airflow-logs@tallerairflowlogs.blob.core.windows.net/'
+            remote_log_conn_id: 'azure_blob_default'
         dags:
           gitSync:
             enabled: true
@@ -39,6 +43,23 @@ spec:
             maxFailures: 0
             credentialsSecret: ""
         executor: "KubernetesExecutor"
+        logs:
+          persistence:
+            enabled: true
+            size: 50Gi
+        env:
+          - name: AZURE_STORAGE_ACCOUNT
+            value: "tallerairflowlogs"
+          - name: AZURE_STORAGE_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: airflow-azure-credentials
+                key: access-key
+          - name: AZURE_STORAGE_ACCOUNT_NAME
+            valueFrom:
+              secretKeyRef:
+                name: airflow-azure-credentials
+                key: account-name
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
