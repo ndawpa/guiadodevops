@@ -35,7 +35,7 @@ spec:
             log_fetch_timeout_sec: 30
             log_processing_timeout: 30
           # Configure the Azure connection
-          connections: |
+          connections:
             azure_blob_default:
               conn_type: azure
               host: blob.core.windows.net
