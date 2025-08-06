@@ -34,6 +34,8 @@ spec:
             # Additional logging configuration
             log_fetch_timeout_sec: 30
             log_processing_timeout: 30
+          azure_remote_logging:
+            remote_wasb_log_container: 'airflow-logs'
           # Configure the Azure connection
           connections:
             azure_blob_default:
@@ -43,7 +45,6 @@ spec:
               password: "{{ .Values.secret.0.secretKey }}"
               extra: |
                 {
-                  "account_name": "tallerairflowlogs",
                   "account_key": "{{ .Values.secret.0.secretKey }}"
                 }
         dags:
@@ -68,7 +69,7 @@ spec:
           - envName: AZURE_STORAGE_ACCOUNT
             secretName: airflow-azure-credentials
             secretKey: account-name
-          - envName: AZURE_STORAGE_CONNECTION_STRING
+          - envName: AIRFLOW_CONN_AZURE_BLOB_DEFAULT
             secretName: airflow-azure-credentials
             secretKey: connection-string
     chart: infra/airflow
