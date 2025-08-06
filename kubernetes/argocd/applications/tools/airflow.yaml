@@ -45,8 +45,7 @@ spec:
         executor: "KubernetesExecutor"
         logs:
           persistence:
-            enabled: true
-            size: 50Gi
+            enabled: false
         secret:
           - envName: AZURE_STORAGE_ACCESS_KEY
             secretName: airflow-azure-credentials
