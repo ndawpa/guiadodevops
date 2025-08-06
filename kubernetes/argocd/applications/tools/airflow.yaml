@@ -36,17 +36,7 @@ spec:
             log_processing_timeout: 30
           azure_remote_logging:
             remote_wasb_log_container: 'airflow-logs'
-          # Configure the Azure connection
-          connections:
-            azure_blob_default:
-              conn_type: azure
-              host: blob.core.windows.net
-              login: tallerairflowlogs
-              password: "{{ .Values.secret.0.secretKey }}"
-              extra: |
-                {
-                  "account_key": "{{ .Values.secret.0.secretKey }}"
-                }
+          # Note: Azure connection is configured via environment variable AIRFLOW_CONN_AZURE_BLOB_DEFAULT
         dags:
           gitSync:
             enabled: true
