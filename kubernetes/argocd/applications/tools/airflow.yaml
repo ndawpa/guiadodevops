@@ -31,6 +31,9 @@ spec:
             remote_logging: 'True'
             remote_base_log_folder: 'wasb://airflow-logs@tallerairflowlogs.blob.core.windows.net/'
             remote_log_conn_id: 'azure_blob_default'
+            # Additional logging configuration
+            log_fetch_timeout_sec: 30
+            log_processing_timeout: 30
         dags:
           gitSync:
             enabled: true
@@ -53,6 +56,9 @@ spec:
           - envName: AZURE_STORAGE_ACCOUNT
             secretName: airflow-azure-credentials
             secretKey: account-name
+          - envName: AZURE_STORAGE_CONNECTION_STRING
+            secretName: airflow-azure-credentials
+            secretKey: connection-string
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
