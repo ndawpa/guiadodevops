@@ -34,6 +34,18 @@ spec:
             # Additional logging configuration
             log_fetch_timeout_sec: 30
             log_processing_timeout: 30
+          # Configure the Azure connection
+          connections:
+            - connId: azure_blob_default
+              connType: azure
+              host: tallerairflowlogs.blob.core.windows.net
+              login: tallerairflowlogs
+              password: "{{ .Values.secret.0.secretKey }}"
+              extra: |
+                {
+                  "account_name": "tallerairflowlogs",
+                  "account_key": "{{ .Values.secret.0.secretKey }}"
+                }
         dags:
           gitSync:
             enabled: true
