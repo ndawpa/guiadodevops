@@ -35,10 +35,10 @@ spec:
             log_fetch_timeout_sec: 30
             log_processing_timeout: 30
           # Configure the Azure connection
-          connections:
-            - connId: azure_blob_default
-              connType: azure
-              host: tallerairflowlogs.blob.core.windows.net
+          connections: |
+            azure_blob_default:
+              conn_type: azure
+              host: blob.core.windows.net
               login: tallerairflowlogs
               password: "{{ .Values.secret.0.secretKey }}"
               extra: |
