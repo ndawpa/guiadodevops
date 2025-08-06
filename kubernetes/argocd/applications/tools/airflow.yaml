@@ -63,7 +63,7 @@ spec:
             secretName: airflow-azure-credentials
             secretKey: connection-string
         # Add revision history limits to prevent ReplicaSet accumulation
-        webserver:
+        apiServer::
           revisionHistoryLimit: 2
         scheduler:
           revisionHistoryLimit: 2
