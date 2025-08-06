@@ -47,19 +47,13 @@ spec:
           persistence:
             enabled: true
             size: 50Gi
-        env:
-          - name: AZURE_STORAGE_ACCOUNT
-            value: "tallerairflowlogs"
-          - name: AZURE_STORAGE_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: airflow-azure-credentials
-                key: access-key
-          - name: AZURE_STORAGE_ACCOUNT_NAME
-            valueFrom:
-              secretKeyRef:
-                name: airflow-azure-credentials
-                key: account-name
+        secret:
+          - envName: AZURE_STORAGE_ACCESS_KEY
+            secretName: airflow-azure-credentials
+            secretKey: access-key
+          - envName: AZURE_STORAGE_ACCOUNT
+            secretName: airflow-azure-credentials
+            secretKey: account-name
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
