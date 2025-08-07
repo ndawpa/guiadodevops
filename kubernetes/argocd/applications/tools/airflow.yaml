@@ -33,7 +33,7 @@ spec:
           persistence:
             enabled: true
             size: 50Gi
-             storageClassName: oci-fss
+            storageClassName: oci-fss
             accessMode: "ReadWriteMany"
         dags:
           gitSync:
