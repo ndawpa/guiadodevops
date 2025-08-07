@@ -34,7 +34,6 @@ spec:
             enabled: true
             size: 50Gi
             storageClassName: oci-fss
-            accessMode: "ReadWriteMany"
         dags:
           gitSync:
             enabled: true
