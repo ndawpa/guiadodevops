@@ -7,6 +7,8 @@ parameters:
   # Compartment OCID where the file system should be created
   compartmentId: ocid1.compartment.oc1..aaaaaaaacfrcqei3rsvubbjzfgvifvczgjokyvr6hrbxb65wmzlnzsy3pfvq
   # Mount target subnet OCID (must be in same AD as the worker node)
-  mountTargetSubnetOcid: ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa7rsgyortkwknr24zuztf5dqjwfiu2heg4f7mlxjugvsbtwvzqh5q
+  subnetId: ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa7rsgyortkwknr24zuztf5dqjwfiu2heg4f7mlxjugvsbtwvzqh5q
   # Availability Domain where the file system should be created
-  availabilityDomain: SA-SAOPAULO-1-AD-1
+  availabilityDomain: "SA-SAOPAULO-1-AD-1"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
