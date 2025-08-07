@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: oci-fss
+provisioner: fss.csi.oraclecloud.com
+parameters:
+  # Compartment OCID where the file system should be created
+  compartmentId: ocid1.compartment.oc1..aaaaaaaacfrcqei3rsvubbjzfgvifvczgjokyvr6hrbxb65wmzlnzsy3pfvq
+  # Mount target subnet OCID (must be in same AD as the worker node)
+  subnetId: ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa7rsgyortkwknr24zuztf5dqjwfiu2heg4f7mlxjugvsbtwvzqh5q
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
