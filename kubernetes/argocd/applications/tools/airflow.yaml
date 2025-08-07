@@ -29,9 +29,6 @@ spec:
             load_examples: 'True'
           logging:
             remote_logging: 'True'
-        airflow:
-          extraPipPackages:
-            - apache-airflow-providers-microsoft-azure
         dags:
           gitSync:
             enabled: true
