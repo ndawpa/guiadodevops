@@ -44,27 +44,6 @@ spec:
             maxFailures: 0
             credentialsSecret: ""
         executor: "KubernetesExecutor"
-        logs:
-          persistence:
-            enabled: false
-        # secret:
-        #   - envName: AZURE_STORAGE_ACCESS_KEY
-        #     secretName: airflow-azure-credentials
-        #     secretKey: access-key
-        #   - envName: AZURE_STORAGE_ACCOUNT
-        #     secretName: airflow-azure-credentials
-        #     secretKey: account-name
-        #   - envName: AIRFLOW_CONN_WASB_DEFAULT
-        #     secretName: airflow-azure-credentials
-        #     secretKey: connection-string
-        extraSecrets:
-          '{{ .Release.Name }}-airflow-connections':
-            type: 'Opaque'
-            stringData: |
-              AIRFLOW_CONN_WASB_DEFAULT: 'wasb://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net'
-        extraEnvFrom: |
-          - secretRef:
-              name: '{{ .Release.Name }}-airflow-connections'
         apiServer:
           revisionHistoryLimit: 2
         scheduler:
