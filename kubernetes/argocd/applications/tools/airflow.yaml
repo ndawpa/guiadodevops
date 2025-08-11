@@ -75,6 +75,23 @@ spec:
           # Enable task logging
           - name: AIRFLOW__LOGGING__TASK_LOG_READER
             value: "task"
+            
+          # Force Azure to use account key authentication
+          - name: AZURE_STORAGE_ACCOUNT
+            value: "tallerairflowlogs"
+          - name: AZURE_STORAGE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: "airflow-connections"
+                key: "AZURE_STORAGE_KEY"
+          
+          # Disable Azure CLI authentication
+          - name: AZURE_CLI_DISABLE_CONNECTION_VERIFICATION
+            value: "1"
+          
+          # Use explicit authentication method
+          - name: AZURE_AUTH_METHOD
+            value: "account_key"
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
