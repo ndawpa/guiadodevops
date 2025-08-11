@@ -13,8 +13,8 @@ spec:
         # Use your custom image
         images:
           airflow:
-            repository: "harbor.guiadodevops.com/your-project/airflow"
-            tag: "3.0.2-custom"
+            repository: "harbor.guiadodevops.com/images/airflow"
+            tag: "latest"
             pullPolicy: Always
         ingress:
           apiServer:
