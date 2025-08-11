@@ -62,7 +62,7 @@ spec:
             value: "True"
 
           - name: AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID
-            value: "wasb_connection"
+            value: "azure_logging"
 
           - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
             value: "wasb://airflow-logs"
