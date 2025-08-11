@@ -24,16 +24,6 @@ spec:
                 tls:
                   enabled: true
                   secretName: "airflow-tls"
-        config:
-          core:
-            load_examples: 'True'
-          logging:
-            remote_logging: 'True'
-        logs:
-          persistence:
-            enabled: true
-            size: 50Gi
-            storageClassName: oci-fss
         dags:
           gitSync:
             enabled: true
