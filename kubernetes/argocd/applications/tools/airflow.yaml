@@ -65,10 +65,10 @@ spec:
             value: "azure_logging"
 
           - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
-            value: "wasb://airflow-logs"
+            value: ""
 
           - name: AIRFLOW__AZURE_REMOTE_LOGGING__REMOTE_WASB_LOG_CONTAINER
-            value: "wasb://airflow-logs"
+            value: "airflow-logs"
           
           - name: AIRFLOW__LOGGING__LOGGING_LEVEL
             value: "INFO"
