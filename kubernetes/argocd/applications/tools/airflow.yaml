@@ -58,33 +58,21 @@ spec:
 
         # Remote logging configuration
         env:
-          # Enable remote logging
           - name: AIRFLOW__LOGGING__REMOTE_LOGGING
             value: "True"
-          
-          # Azure Blob Storage path for logs
-          - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
-            value: "wasb://airflow-logs@tallerairflowlogs.blob.core.windows.net"
-          
-          # Connection ID for Azure Storage
+
           - name: AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID
-            value: "azure_logging"
+            value: "wasb_connection"
+
+          - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
+            value: "wasb://airflow-logs"
+
+          - name: AIRFLOW__AZURE_REMOTE_LOGGING__REMOTE_WASB_LOG_CONTAINER
+            value: "wasb://airflow-logs"
           
-          # Logging level
           - name: AIRFLOW__LOGGING__LOGGING_LEVEL
             value: "INFO"
-          
-          # Disable fabric logs (optional)
-          - name: AIRFLOW__LOGGING__FABRIC_LOGS
-            value: "False"
-          
-          # Enable task logging
-          - name: AIRFLOW__LOGGING__TASK_LOG_READER
-            value: "task"
-          
-          # Use explicit authentication method
-          - name: AZURE_AUTH_METHOD
-            value: "account_key"
+
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
