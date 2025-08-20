@@ -60,19 +60,14 @@ spec:
         env:
           - name: AIRFLOW__LOGGING__REMOTE_LOGGING
             value: "True"
-
           - name: AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID
             value: "azure_logging"
-
           - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
             value: "/opt/airflow/logs"
-
           - name: AIRFLOW__AZURE_REMOTE_LOGGING__REMOTE_WASB_LOG_CONTAINER
             value: "airflow-logs"
-          
           - name: AIRFLOW__LOGGING__LOGGING_LEVEL
             value: "INFO"
-
     chart: infra/airflow
   destination:
     server: https://kubernetes.default.svc
