@@ -12,6 +12,51 @@ spec:
       values: |-
         grafana:
           enabled: false
+        loki:
+          config:
+            schema_config:
+              configs:
+                - from: 2020-10-24
+                  store: boltdb-shipper
+                  object_store: azure
+                  schema: v11
+                  index:
+                    prefix: index_
+                    period: 24h
+            storage_config:
+              azure:
+                environment: AzurePublicCloud
+                container_name: "loki-logs"
+                account_name: "lokilogsguiadodevops"
+                account_key: "${AZURE_STORAGE_ACCOUNT_KEY}"
+                endpoint_suffix: "core.windows.net"
+                max_retries: 0
+                request_timeout: 0
+                upload_buffer_size: 0
+                upload_buffer_flush_interval: 0
+                use_managed_identity: false
+              boltdb_shipper:
+                active_index_directory: /data/loki/boltdb-shipper-active
+                cache_location: /data/loki/boltdb-shipper-cache
+                cache_ttl: 24h
+                shared_store: azure
+              filesystem:
+                directory: /data/loki/chunks
+            compactor:
+              working_directory: /data/loki/boltdb-shipper-compactor
+              shared_store: azure
+          persistence:
+            enabled: true
+            accessModes:
+              - ReadWriteOnce
+            size: 10Gi
+            storageClassName: "oci-bv"
+          extraEnv:
+            - name: AZURE_STORAGE_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: loki-azure-storage-account-secret
+                  key: access-key
     chart: infra/loki-stack
   destination:
     server: https://kubernetes.default.svc
