@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: viine-port-nonprod
+  name: viine-skt-nonprod #alterar
   namespace: argocd
 spec:
   project: nonprod
@@ -11,8 +11,8 @@ spec:
     helm:
       values: |-
         image:
-          repository: tallerwillianalmeida/portifolio
-          tag: "2205_main"
+          repository: tallerwillianalmeida/sktbr #alterar
+          tag: "2200_main" #alterar
         ingress:
           enabled: true
           className: "nginx"
@@ -21,14 +21,14 @@ spec:
             external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           hosts:
-            - host: viine-port-nonprod.guiadodevops.com
+            - host: viine-skt-nonprod.guiadodevops.com #alterar
               paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
-          - secretName: viine-port-nonprod-tls
+          - secretName: viine-skt-nonprod-tls #alterar
             hosts:
-              - viine-port-nonprod.guiadodevops.com
+              - viine-skt-nonprod.guiadodevops.com #alterar
     chart: core/myapp
   destination:
     server: https://kubernetes.default.svc
