@@ -12,7 +12,7 @@ spec:
       values: |-
         image:
           repository: tallerwillianalmeida/portifolio
-          tag: "2205_main"
+          tag: "2207_main"
         replicaCount: 2
         ingress:
           enabled: true
