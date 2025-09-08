@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarqube-community
+  namespace: argocd     
+spec:
+  project: tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2025.3.1
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          hosts:
+            - name: sonarqube-community.guiadodevops.com
+              path: /
+              pathType: ImplementationSpecific
+          annotations:
+            kubernetes.io/ingress.class: nginx
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false" 
+          tls:
+            - secretName: sonarqube-community-tls
+              hosts:
+                - sonarqube-community.guiadodevops.com
+        monitoringPasscode: "adminadmin123!"
+        community:
+          enabled: true
+        plugins:
+          install:
+            - https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/${version}/sonarqube-community-branch-plugin-${version}.jar
+        sonarProperties:
+          sonar.web.javaAdditionalOpts: "-javaagent:/opt/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-${version}.jar=web"
+          sonar.ce.javaAdditionalOpts: "-javaagent:/opt/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-${version}.jar=ce"
+
+        extraVolumes:
+          - name: webapp
+            emptyDir:
+              sizeLimit: 50Mi
+        extraVolumeMounts:
+          - name: webapp
+            mountPath: /opt/sonarqube/web
+        extraInitContainers:
+          - name: download-webapp
+            image: busybox:1.37
+            volumeMounts:
+              - name: webapp
+                mountPath: /web
+            command:
+              - sh
+              - -c
+              - wget -O /tmp/sonarqube-webapp.zip https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/${version}/sonarqube-webapp.zip &&
+                unzip -o /tmp/sonarqube-webapp.zip -d /web &&
+                chmod -R 755 /web &&
+                chown -R 1000:0 /web &&
+                rm -f /tmp/sonarqube-webapp.zip
+    chart: infra/sonarqube
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true
