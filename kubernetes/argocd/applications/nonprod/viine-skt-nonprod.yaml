@@ -13,6 +13,7 @@ spec:
         image:
           repository: tallerwillianalmeida/sktbr #alterar
           tag: "2200_main" #alterar
+        replicaCount: 2
         ingress:
           enabled: true
           className: "nginx"
