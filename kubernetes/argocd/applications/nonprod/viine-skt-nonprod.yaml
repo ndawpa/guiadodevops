@@ -12,7 +12,7 @@ spec:
       values: |-
         image:
           repository: tallerwillianalmeida/sktbr #alterar
-          tag: "2200_main" #alterar
+          tag: "2209_main"
         replicaCount: 2
         ingress:
           enabled: true
