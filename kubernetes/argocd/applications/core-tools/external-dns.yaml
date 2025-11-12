@@ -34,6 +34,8 @@ spec:
         # Domain filters (optional - limit which domains to manage)
         domainFilters:
           - "guiadodevops.com"
+          - "kitdevoz.com.br"
+          - "kideensaio.com.br"
 
         # Sources to monitor
         sources:

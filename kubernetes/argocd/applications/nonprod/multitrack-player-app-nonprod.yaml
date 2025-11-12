@@ -20,10 +20,18 @@ spec:
           className: "nginx"
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
-            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+            external-dns.alpha.kubernetes.io/hostname: multitrack-player-app-nonprod.guiadodevops.com,kitdevoz.com.br,kideensaio.com.br
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           hosts:
             - host: multitrack-player-app-nonprod.guiadodevops.com
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+            - host: kitdevoz.com.br
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+            - host: kideensaio.com.br
               paths:
                 - path: /
                   pathType: ImplementationSpecific
@@ -31,12 +39,12 @@ spec:
           - secretName: multitrack-player-app-nonprod-tls
             hosts:
               - multitrack-player-app-nonprod.guiadodevops.com
+              - kitdevoz.com.br
+              - kideensaio.com.br
     chart: core/myapp
   destination:
     server: https://kubernetes.default.svc
     namespace: nonprod
-  syncPolicy:
-    automated: {}
   syncPolicy:
     automated:
       prune: true
