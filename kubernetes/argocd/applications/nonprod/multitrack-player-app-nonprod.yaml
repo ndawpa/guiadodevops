@@ -12,7 +12,7 @@ spec:
       values: |-
         image:
           repository: harbor.guiadodevops.com/core/multitrack-player-app
-          tag: "24_main"
+          tag: "master-0a048e7"
         imagePullSecrets:
           - name: k8s-private-repository-harbor
         ingress:
