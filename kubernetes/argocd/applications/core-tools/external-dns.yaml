@@ -35,7 +35,7 @@ spec:
         domainFilters:
           - "guiadodevops.com"
           - "kitdevoz.com.br"
-          - "kideensaio.com.br"
+          - "kitdelouvor.com.br"
 
         # Sources to monitor
         sources:
