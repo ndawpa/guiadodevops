@@ -36,6 +36,7 @@ spec:
           - "guiadodevops.com"
           - "kitdevoz.com.br"
           - "kitdelouvor.com.br"
+          - "ministeriodelouvor.app.br"
 
         # Sources to monitor
         sources:
