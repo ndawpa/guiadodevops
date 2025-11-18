@@ -21,7 +21,7 @@ spec:
           className: "nginx"
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
-            external-dns.alpha.kubernetes.io/hostname: multitrack-player-app-nonprod.guiadodevops.com,kitdevoz.com.br,kitdelouvor.com.br,ministeriodelouvor.app.br
+            external-dns.alpha.kubernetes.io/hostname: multitrack-player-app-nonprod.guiadodevops.com,kitdevoz.com.br,kitdelouvor.com.br,ministeriodelouvor.app.br,ministeriodelouvor.app
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           hosts:
             - host: multitrack-player-app-nonprod.guiadodevops.com
@@ -40,6 +40,10 @@ spec:
               paths:
                 - path: /
                   pathType: ImplementationSpecific
+            - host: ministeriodelouvor.app
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
           tls:
           - secretName: multitrack-player-app-nonprod-tls
             hosts:
@@ -47,6 +51,7 @@ spec:
               - kitdevoz.com.br
               - kitdelouvor.com.br
               - ministeriodelouvor.app.br
+              - ministeriodelouvor.app
     chart: core/myapp
   destination:
     server: https://kubernetes.default.svc

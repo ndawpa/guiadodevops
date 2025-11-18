@@ -37,6 +37,7 @@ spec:
           - "kitdevoz.com.br"
           - "kitdelouvor.com.br"
           - "ministeriodelouvor.app.br"
+          - "ministeriodelouvor.app"
 
         # Sources to monitor
         sources:
