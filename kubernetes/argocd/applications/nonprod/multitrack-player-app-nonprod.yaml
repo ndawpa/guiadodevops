@@ -57,6 +57,10 @@ spec:
     server: https://kubernetes.default.svc
     namespace: nonprod
   syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - PrunePropagationPolicy=background
+      - ApplyOutOfSyncOnly=true
     automated:
       prune: true
       allowEmpty: true 
