@@ -35,7 +35,7 @@ spec:
         web:
           ingress:
             enabled: true
-            className: "nginx-02"
+            className: "nginx"
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt"
               external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
@@ -54,7 +54,7 @@ spec:
           baseUrl: https://anvil-grafana.guiadodevops.com
           ingress:
             enabled: true
-            className: "nginx-02"
+            className: "nginx"
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt"
               external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
