@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: anvil
+  namespace: argocd     
+spec:
+  project: tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 0.0.0
+    helm:
+      values: |-
+        image:
+          pullPolicy: Always
+          api:
+            repository: ghcr.io/wpalmeida/anvil-api
+            tag: sha-a73aa4a
+          worker:
+            repository: ghcr.io/wpalmeida/anvil-worker
+            tag: sha-a73aa4a
+          web:
+            repository: ghcr.io/wpalmeida/anvil-web
+            tag: sha-a73aa4a
+
+        api:
+          guards:
+            targetHostAllowlist: "*"
+
+        postgres:
+          enabled: true
+
+        redis:
+          enabled: true
+
+        web:
+          ingress:
+            enabled: true
+            className: "nginx-02"
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt"
+              external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+            hosts:
+              - host: anvil.guiadodevops.com
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - hosts:
+                  - anvil.guiadodevops.com
+                secretName: anvil-tls
+
+        grafana:
+          baseUrl: https://anvil-grafana.guiadodevops.com
+          ingress:
+            enabled: true
+            className: "nginx-02"
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt"
+              external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+            hosts:
+              - host: anvil-grafana.guiadodevops.com
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - hosts:
+                  - anvil-grafana.guiadodevops.com
+                secretName: anvil-grafana-tls
+    chart: infra/anvil
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

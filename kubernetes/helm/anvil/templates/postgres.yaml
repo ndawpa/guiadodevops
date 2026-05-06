@@ -1,0 +1,134 @@
+{{- if .Values.postgres.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "anvil.fullname" . }}-postgres-init
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+data:
+  init.sql: |
+    CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+    CREATE TABLE IF NOT EXISTS specs (
+        id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        base_url    TEXT NOT NULL,
+        spec_url    TEXT NOT NULL,
+        title       TEXT,
+        version     TEXT,
+        spec        JSONB NOT NULL,
+        fetched_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+
+    CREATE TABLE IF NOT EXISTS runs (
+        id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        service       TEXT NOT NULL,
+        base_url      TEXT NOT NULL,
+        profile       TEXT NOT NULL,
+        vus           INTEGER,
+        duration      TEXT,
+        config        JSONB NOT NULL,
+        status        TEXT NOT NULL DEFAULT 'queued',
+        triggered_by  TEXT,
+        queued_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
+        started_at    TIMESTAMPTZ,
+        finished_at   TIMESTAMPTZ,
+        error         TEXT,
+        summary       JSONB
+    );
+
+    CREATE INDEX IF NOT EXISTS runs_status_idx ON runs (status);
+    CREATE INDEX IF NOT EXISTS runs_queued_at_idx ON runs (queued_at DESC);
+{{- if .Values.postgres.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "anvil.fullname" . }}-postgres
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: {{ .Values.postgres.persistence.size }}
+  {{- if .Values.postgres.persistence.storageClass }}
+  storageClassName: {{ .Values.postgres.persistence.storageClass | quote }}
+  {{- end }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "anvil.fullname" . }}-postgres
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "anvil.componentLabels" (merge (dict "component" "postgres") .) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "anvil.componentLabels" (merge (dict "component" "postgres") .) | nindent 8 }}
+    spec:
+      containers:
+        - name: postgres
+          image: {{ include "anvil.image" (dict "image" .Values.postgres.image "default" "16-alpine") }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: pg
+              containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.auth.user | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.auth.password | quote }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.auth.database | quote }}
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: init
+              mountPath: /docker-entrypoint-initdb.d
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "{{ .Values.postgres.auth.user }}"]
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.postgres.resources | nindent 12 }}
+      volumes:
+        - name: init
+          configMap:
+            name: {{ include "anvil.fullname" . }}-postgres-init
+        - name: data
+          {{- if .Values.postgres.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "anvil.fullname" . }}-postgres
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "anvil.fullname" . }}-postgres
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+spec:
+  type: ClusterIP
+  ports:
+    - name: pg
+      port: 5432
+      targetPort: pg
+  selector:
+    {{- include "anvil.componentLabels" (merge (dict "component" "postgres") .) | nindent 4 }}
+{{- end }}

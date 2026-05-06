@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "anvil.fullname" . }}-worker
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: worker
+spec:
+  replicas: {{ .Values.worker.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "anvil.componentLabels" (merge (dict "component" "worker") .) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "anvil.componentLabels" (merge (dict "component" "worker") .) | nindent 8 }}
+      {{- with .Values.worker.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: worker
+          image: {{ include "anvil.image" (dict "image" .Values.image.worker "default" .Chart.AppVersion) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DATABASE_URL
+              value: {{ include "anvil.postgresUrl" . | quote }}
+            - name: REDIS_URL
+              value: {{ include "anvil.redisUrl" . | quote }}
+            - name: INFLUXDB_URL
+              value: {{ include "anvil.influxdbUrl" . | quote }}
+            - name: WORKER_CONCURRENCY
+              value: {{ .Values.worker.concurrency | quote }}
+          resources:
+            {{- toYaml .Values.worker.resources | nindent 12 }}

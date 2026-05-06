@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "anvil.fullname" . }}-api
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "anvil.componentLabels" (merge (dict "component" "api") .) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "anvil.componentLabels" (merge (dict "component" "api") .) | nindent 8 }}
+      {{- with .Values.api.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: api
+          image: {{ include "anvil.image" (dict "image" .Values.image.api "default" .Chart.AppVersion) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 4000
+          env:
+            - name: PORT
+              value: "4000"
+            - name: DATABASE_URL
+              value: {{ include "anvil.postgresUrl" . | quote }}
+            - name: REDIS_URL
+              value: {{ include "anvil.redisUrl" . | quote }}
+            - name: GRAFANA_BASE_URL
+              value: {{ include "anvil.grafanaBaseUrl" . | quote }}
+            - name: GRAFANA_DASHBOARD_UID
+              value: {{ .Values.grafana.dashboardUid | quote }}
+            - name: TARGET_HOST_ALLOWLIST
+              value: {{ .Values.api.guards.targetHostAllowlist | quote }}
+            - name: MAX_VUS
+              value: {{ .Values.api.guards.maxVus | quote }}
+            - name: MAX_DURATION_SECONDS
+              value: {{ .Values.api.guards.maxDurationSeconds | quote }}
+            - name: MAX_CONCURRENT_RUNS
+              value: {{ .Values.api.guards.maxConcurrentRuns | quote }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "anvil.fullname" . }}-api
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  type: {{ .Values.api.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.api.service.port }}
+      targetPort: http
+  selector:
+    {{- include "anvil.componentLabels" (merge (dict "component" "api") .) | nindent 4 }}

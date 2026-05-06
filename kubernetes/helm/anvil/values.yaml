@@ -1,0 +1,153 @@
+# Default values for Anvil.
+# Override anything you want with `helm install -f my-values.yaml`.
+
+# -----------------------------------------------------------------------------
+# Container images
+#
+# You must publish the api/worker/web images to a registry before installing —
+# see deploy/helm/anvil/README.md for a quick `docker buildx bake` recipe.
+# -----------------------------------------------------------------------------
+image:
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+  api:
+    repository: ghcr.io/your-org/anvil-api
+    tag: ""               # falls back to .Chart.AppVersion
+  worker:
+    repository: ghcr.io/your-org/anvil-worker
+    tag: ""
+  web:
+    repository: ghcr.io/your-org/anvil-web
+    tag: ""
+
+# -----------------------------------------------------------------------------
+# App services
+# -----------------------------------------------------------------------------
+api:
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 4000
+  resources: {}
+  podAnnotations: {}
+  # Safety guards — empty/0 means "no limit".
+  guards:
+    targetHostAllowlist: ""        # comma-separated, supports *.suffix
+    maxVus: 1000
+    maxDurationSeconds: 3600
+    maxConcurrentRuns: 5
+
+worker:
+  replicaCount: 1
+  resources: {}
+  concurrency: 2
+  podAnnotations: {}
+
+web:
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 5173
+  resources: {}
+  podAnnotations: {}
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: anvil.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+  # Public URL the browser uses to reach the API. With `ingress.enabled` you'd
+  # typically expose api on the same host under a subpath or separate hostname.
+  apiUrl: "http://localhost:4000"
+
+# -----------------------------------------------------------------------------
+# Backing services
+#
+# Each block has the same shape:
+#   <svc>.enabled         – deploys a bundled instance into the namespace
+#   <svc>.external.<...>  – consumed when enabled=false; point at your own
+#
+# For production you almost certainly want enabled=false for the data layer
+# and external.url pointing at a managed service.
+# -----------------------------------------------------------------------------
+postgres:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "16-alpine"
+  auth:
+    user: postgres
+    password: postgres
+    database: loadtest
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
+  resources: {}
+  # When enabled=false, set this to a full URL:
+  external:
+    url: ""                # e.g. postgresql://user:pass@pg.internal:5432/loadtest
+
+redis:
+  enabled: true
+  image:
+    repository: redis
+    tag: "7-alpine"
+  persistence:
+    enabled: false
+    size: 1Gi
+    storageClass: ""
+  resources: {}
+  external:
+    url: ""                # e.g. redis://redis.internal:6379
+
+influxdb:
+  enabled: true
+  image:
+    repository: influxdb
+    tag: "1.8-alpine"
+  database: k6
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: ""
+  resources: {}
+  external:
+    url: ""                # e.g. http://influx.internal:8086/k6
+
+grafana:
+  enabled: true
+  image:
+    repository: grafana/grafana
+    tag: "11.1.0"
+  admin:
+    user: admin
+    password: admin
+  service:
+    type: ClusterIP
+    port: 3000
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
+  resources: {}
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: grafana.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+  # Public URL the API uses when building the "Open in Grafana" deep-link
+  # the user clicks. With ingress, set to https://grafana.example.com.
+  baseUrl: "http://localhost:3000"
+  dashboardUid: anvil
+  external:
+    baseUrl: ""            # e.g. https://grafana.your-org.com — bypasses the bundled service entirely

@@ -1,0 +1,87 @@
+{{- if .Values.influxdb.enabled -}}
+{{- if .Values.influxdb.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "anvil.fullname" . }}-influxdb
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: influxdb
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: {{ .Values.influxdb.persistence.size }}
+  {{- if .Values.influxdb.persistence.storageClass }}
+  storageClassName: {{ .Values.influxdb.persistence.storageClass | quote }}
+  {{- end }}
+---
+{{- end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "anvil.fullname" . }}-influxdb
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: influxdb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "anvil.componentLabels" (merge (dict "component" "influxdb") .) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "anvil.componentLabels" (merge (dict "component" "influxdb") .) | nindent 8 }}
+    spec:
+      containers:
+        - name: influxdb
+          image: {{ include "anvil.image" (dict "image" .Values.influxdb.image "default" "1.8-alpine") }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8086
+          env:
+            - name: INFLUXDB_DB
+              value: {{ .Values.influxdb.database | quote }}
+            - name: INFLUXDB_HTTP_LOG_ENABLED
+              value: "false"
+            - name: INFLUXDB_REPORTING_DISABLED
+              value: "true"
+          {{- if .Values.influxdb.persistence.enabled }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/influxdb
+          {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.influxdb.resources | nindent 12 }}
+      {{- if .Values.influxdb.persistence.enabled }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "anvil.fullname" . }}-influxdb
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "anvil.fullname" . }}-influxdb
+  labels:
+    {{- include "anvil.labels" . | nindent 4 }}
+    app.kubernetes.io/component: influxdb
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8086
+      targetPort: http
+  selector:
+    {{- include "anvil.componentLabels" (merge (dict "component" "influxdb") .) | nindent 4 }}
+{{- end }}
