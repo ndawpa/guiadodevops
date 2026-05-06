@@ -29,10 +29,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 5173
+              containerPort: 80
           env:
-            - name: VITE_API_URL
-              value: {{ .Values.web.apiUrl | quote }}
+            - name: API_UPSTREAM
+              value: {{ default (printf "http://%s-api:%v" (include "anvil.fullname" .) .Values.api.service.port) .Values.web.apiUpstream | quote }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
 ---

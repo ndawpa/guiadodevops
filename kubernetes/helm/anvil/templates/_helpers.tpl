@@ -78,15 +78,26 @@ Backing-service URLs — bundled in-cluster Service, or external override.
 {{- end -}}
 
 {{/*
-Grafana base URL the API uses for deep-links. Three cases:
-  1. external.baseUrl set       → use it (bypasses bundled service entirely)
-  2. bundled enabled            → use grafana.baseUrl (typically the public ingress URL)
-  3. otherwise                  → empty string (deep-link feature disabled)
+Grafana base URL the API uses for deep-links. The browser hits this URL, so
+it MUST be reachable from the user's machine — never an in-cluster Service.
+Resolution order:
+  1. external.baseUrl set                       → use it
+  2. grafana.baseUrl set                        → use it
+  3. bundled grafana with ingress enabled       → derive from ingress host
+                                                  (https if tls, http otherwise)
+  4. otherwise                                  → empty string; the API hides
+                                                  the "Open in Grafana" button
 */}}
 {{- define "anvil.grafanaBaseUrl" -}}
 {{- if .Values.grafana.external.baseUrl -}}
 {{- .Values.grafana.external.baseUrl -}}
-{{- else if .Values.grafana.enabled -}}
+{{- else if .Values.grafana.baseUrl -}}
 {{- .Values.grafana.baseUrl -}}
+{{- else if and .Values.grafana.enabled .Values.grafana.ingress.enabled (gt (len .Values.grafana.ingress.hosts) 0) -}}
+{{- $scheme := "http" -}}
+{{- if gt (len .Values.grafana.ingress.tls) 0 -}}
+{{- $scheme = "https" -}}
+{{- end -}}
+{{- printf "%s://%s" $scheme (index .Values.grafana.ingress.hosts 0).host -}}
 {{- end -}}
 {{- end -}}
