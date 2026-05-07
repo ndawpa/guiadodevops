@@ -24,7 +24,7 @@ spec:
 
         api:
           guards:
-            targetHostAllowlist: "*"
+            targetHostAllowlist: "*.com, *.com.br, *.ai"
             maxVus: 100
             maxDurationSeconds: 900
             maxConcurrentRuns: 2
