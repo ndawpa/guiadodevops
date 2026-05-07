@@ -14,13 +14,13 @@ spec:
           pullPolicy: Always
           api:
             repository: ghcr.io/wpalmeida/anvil-api
-            tag: sha-a73aa4a
+            tag: sha-f9d8b32
           worker:
             repository: ghcr.io/wpalmeida/anvil-worker
-            tag: sha-a73aa4a
+            tag: sha-f9d8b32
           web:
             repository: ghcr.io/wpalmeida/anvil-web
-            tag: sha-a73aa4a
+            tag: sha-f9d8b32
 
         api:
           guards:
