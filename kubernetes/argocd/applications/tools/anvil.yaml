@@ -25,6 +25,9 @@ spec:
         api:
           guards:
             targetHostAllowlist: "*"
+            maxVus: 100
+            maxDurationSeconds: 900
+            maxConcurrentRuns: 2
 
         postgres:
           enabled: true
