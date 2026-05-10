@@ -24,9 +24,9 @@ spec:
 
         api:
           guards:
-            targetHostAllowlist: "*.com, *.com.br, *.ai"
-            maxVus: 100
-            maxDurationSeconds: 900
+            targetHostAllowlist: "*.com, *.com.br, *.ai, *org, *io"
+            maxVus: 50
+            maxDurationSeconds: 180
             maxConcurrentRuns: 2
 
         postgres:
