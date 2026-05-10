@@ -24,7 +24,7 @@ spec:
 
         api:
           guards:
-            targetHostAllowlist: "*.com, *.com.br, *.ai, *org, *io"
+            targetHostAllowlist: "*.com, *.com.br, *.ai, *.org, *.io, *.co, *.net, *.dev, *.app, *.cloud, *.tech, *.xyz"
             maxVus: 50
             maxDurationSeconds: 180
             maxConcurrentRuns: 2
