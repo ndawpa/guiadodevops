@@ -1,0 +1,22 @@
+YouTube Converter has been deployed!
+
+Get the application URL:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}
+{{- end }}
+{{- else if contains "NodePort" .Values.service.type }}
+  export NODE_PORT=$(kubectl get svc {{ include "youtube-converter.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}")
+  export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo "http://$NODE_IP:$NODE_PORT"
+{{- else if contains "LoadBalancer" .Values.service.type }}
+  export SERVICE_IP=$(kubectl get svc {{ include "youtube-converter.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+  echo "http://$SERVICE_IP"
+{{- else }}
+  kubectl port-forward svc/{{ include "youtube-converter.fullname" . }} 8080:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+  echo "http://localhost:8080"
+{{- end }}
+
+NOTE: In Kubernetes, browser cookie sync is not available (no access to the
+host filesystem). Use the Upload button in the UI to provide a cookies.txt
+file, or pre-populate the PVC before starting the pod.

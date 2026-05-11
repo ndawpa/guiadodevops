@@ -1,42 +1,45 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: viine-port-nonprod
+  name: youtube-converter-nonprod
   namespace: argocd
 spec:
   project: nonprod
   source:
     repoURL: harbor.guiadodevops.com
-    targetRevision: 0.1.1
+    targetRevision: 0.1.0
     helm:
       values: |-
         image:
-          repository: tallerwillianalmeida/portifolio
-          tag: "2207_main"
-        replicaCount: 2
+          repository: ghcr.io/ndawpa/youtube-converter
+          pullPolicy: IfNotPresent
+          tag: "sha-aa5c5ce"
+
         ingress:
           enabled: true
           className: "nginx"
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt"
-            external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+            external-dns.alpha.kubernetes.io/hostname: youtube-converter-nonprod.guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           hosts:
-            - host: viine-port-nonprod.guiadodevops.com
+            - host: youtube-converter-nonprod.guiadodevops.com
               paths:
                 - path: /
-                  pathType: ImplementationSpecific
+                  pathType: Prefix
           tls:
-          - secretName: viine-port-nonprod-tls
-            hosts:
-              - viine-port-nonprod.guiadodevops.com
-    chart: core/myapp
+            - secretName: youtube-converter-tls
+              hosts:
+                - youtube-converter-nonprod.guiadodevops.com
+    chart: core/youtube-converter
   destination:
     server: https://kubernetes.default.svc
     namespace: nonprod
   syncPolicy:
-    automated: {}
-  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - PrunePropagationPolicy=background
+      - ApplyOutOfSyncOnly=true
     automated:
       prune: true
       allowEmpty: true 
