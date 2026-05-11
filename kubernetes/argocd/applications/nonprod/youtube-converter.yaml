@@ -31,8 +31,8 @@ spec:
             - secretName: youtube-converter-tls
               hosts:
                 - youtube-converter-nonprod.guiadodevops.com
-          persistence:
-            enabled: false
+        persistence:
+          enabled: false
     chart: core/youtube-converter
   destination:
     server: https://kubernetes.default.svc
