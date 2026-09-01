@@ -22,6 +22,8 @@ spec:
             cert-manager.io/cluster-issuer: "letsencrypt"
             external-dns.alpha.kubernetes.io/hostname: youtube-converter-nonprod.guiadodevops.com
             external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
           hosts:
             - host: youtube-converter-nonprod.guiadodevops.com
               paths:
