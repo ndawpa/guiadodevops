@@ -17,6 +17,7 @@ spec:
 
         resources:
           limits:
+            cpu: "4"
             memory: 4Gi
 
         ingress:
