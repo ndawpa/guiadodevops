@@ -13,7 +13,7 @@ spec:
         image:
           repository: ghcr.io/ndawpa/youtube-converter
           pullPolicy: IfNotPresent
-          tag: "sha-9f17feb"
+          tag: "sha-a651749"
 
         resources:
           limits:
