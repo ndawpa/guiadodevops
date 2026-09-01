@@ -15,6 +15,10 @@ spec:
           pullPolicy: IfNotPresent
           tag: "sha-ff12002"
 
+        resources:
+          limits:
+            memory: 4Gi
+
         ingress:
           enabled: true
           className: "nginx"
